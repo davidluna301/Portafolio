@@ -3,7 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { motion } from "motion/react";
-import profileImage from "../../imports/image-1.png";
+import profileImage from "../../imports/photo.png";
 import { useLanguage } from "../contexts/LanguageContext";
 
 const images = [
