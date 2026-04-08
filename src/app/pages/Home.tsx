@@ -1,7 +1,7 @@
 import { Download, ChevronDown } from "lucide-react";
 import { motion } from "motion/react";
 import cvFile from "../../imports/CV_David_Luna.pdf";
-import logoImage from "../../imports/image-1.png";
+import logoImage from "../../imports/logoDM.png";
 import logoImageLight from "../../imports/image-0.png";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useTheme } from "../contexts/ThemeContext";
