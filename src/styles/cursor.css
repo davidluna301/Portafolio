@@ -1,0 +1,67 @@
+/* Minimalist custom cursor */
+body {
+  cursor: none;
+}
+
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  background: #2C2416;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.15s ease-out, opacity 0.15s ease-out, background 0.3s ease;
+  box-shadow: 0 0 8px rgba(44, 36, 22, 0.3);
+}
+
+.custom-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  border: 2px solid #2C2416;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transition: transform 0.2s ease-out, width 0.2s ease-out, height 0.2s ease-out, border-color 0.3s ease;
+  box-shadow: 0 0 12px rgba(44, 36, 22, 0.2);
+}
+
+/* Tatami theme cursor colors - Versión clara y visible */
+.tatami .custom-cursor {
+  background: #F5F1E8;
+  box-shadow: 0 0 12px rgba(245, 241, 232, 0.6), 0 0 20px rgba(170, 134, 109, 0.4);
+}
+
+.tatami .custom-cursor-ring {
+  border-color: #F5F1E8;
+  border-width: 2px;
+  box-shadow: 0 0 16px rgba(245, 241, 232, 0.5), 0 0 24px rgba(170, 134, 109, 0.3);
+}
+
+.custom-cursor.hover {
+  transform: scale(1.8);
+}
+
+.custom-cursor-ring.hover {
+  width: 52px;
+  height: 52px;
+}
+
+/* Modo Tatami - Efecto hover más brillante */
+.tatami .custom-cursor.hover {
+  box-shadow: 0 0 16px rgba(245, 241, 232, 0.8), 0 0 28px rgba(170, 134, 109, 0.6);
+}
+
+.tatami .custom-cursor-ring.hover {
+  box-shadow: 0 0 20px rgba(245, 241, 232, 0.7), 0 0 32px rgba(170, 134, 109, 0.5);
+}
+
+/* Hide cursor in specific scenarios */
+a, button, [role="button"], input, textarea, select {
+  cursor: none;
+}

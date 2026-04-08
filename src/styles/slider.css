@@ -1,0 +1,68 @@
+/* Custom styles for react-slick carousel */
+
+/* Dots customization */
+.slick-dots {
+  position: relative;
+  bottom: 0 !important;
+  padding: 1rem 0;
+}
+
+.slick-dots li button:before {
+  display: none;
+}
+
+/* Arrow customization */
+.slick-prev,
+.slick-next {
+  width: 40px;
+  height: 40px;
+  z-index: 10;
+  background-color: #2C2416;
+  border: 2px solid #8B7355;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.slick-prev:hover,
+.slick-next:hover {
+  background-color: #8B7355;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: #C4A57B;
+  font-size: 20px;
+  opacity: 1;
+}
+
+.slick-prev {
+  left: 10px;
+}
+
+.slick-next {
+  right: 10px;
+}
+
+/* Disable arrows on mobile */
+@media (max-width: 768px) {
+  .slick-prev,
+  .slick-next {
+    display: none !important;
+  }
+}
+
+/* Smooth transitions */
+.slick-slide {
+  transition: opacity 0.3s ease;
+}
+
+.slick-slide.slick-active {
+  opacity: 1;
+}
+
+/* Fix for image sizing */
+.slick-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
