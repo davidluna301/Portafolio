@@ -1,7 +1,8 @@
 import { ExternalLink, Github, Video } from "lucide-react";
 import { motion } from "motion/react";
-import totalPaperImage from "../../imports/image-0.png";
+import totalPaperImage from "../../imports/total-paper-logo.png";
 import totalGrafic3DImage from "../../imports/image-1.png";
+import muLiImage from "../../imports/muli-logo.png";
 import { useLanguage } from "../contexts/LanguageContext";
 
 export function Projects() {
@@ -45,7 +46,7 @@ export function Projects() {
       github: "https://github.com/davidluna301/MuLi",
       demo: "https://mu-li.vercel.app/",
       videoDemo: false,
-      image: "https://images.unsplash.com/photo-1644337540803-2b2fb3cebf12?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwd29ya3NwYWNlJTIwZGVza3xlbnwxfHx8fDE3NzQzMDY2NTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      image: muLiImage,
     },
   ];
   return (
