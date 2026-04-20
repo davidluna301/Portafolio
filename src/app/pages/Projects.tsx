@@ -99,7 +99,7 @@ export function Projects() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1, duration: 0.6 }}
-                className="group bg-white/50 backdrop-blur-sm rounded-lg overflow-hidden border-2 border-[#8B7355] shadow-lg hover:shadow-2xl transition-all hover:scale-[1.02]"
+                className="group bg-white/50 tatami:bg-[#575357]/80 backdrop-blur-sm rounded-lg overflow-hidden border-2 border-[#8B7355] shadow-lg hover:shadow-2xl transition-all hover:scale-[1.02]"
               >
                 {/* Imagen del proyecto */}
                 <div className="relative h-64 overflow-hidden bg-[#2C2416] flex items-center justify-center">
@@ -113,10 +113,10 @@ export function Projects() {
 
                 {/* Contenido */}
                 <div className="p-6">
-                  <h3 className="text-2xl text-[#2C2416] mb-3">
+                  <h3 className="text-2xl text-portfolio-strong mb-3">
                     {project.title}
                   </h3>
-                  <p className="text-[#8B7355] mb-4 leading-relaxed">
+                  <p className="text-portfolio-soft mb-4 leading-relaxed">
                     {project.description}
                   </p>
 
@@ -125,7 +125,7 @@ export function Projects() {
                     {project.technologies.map((tech) => (
                       <span
                         key={tech}
-                        className="px-3 py-1 bg-[#2C2416] text-[#C4A57B] text-sm rounded-full border border-[#8B7355]"
+                        className="px-3 py-1 bg-[#2C2416] text-portfolio-accent text-sm rounded-full border border-[#8B7355]"
                       >
                         {tech}
                       </span>
@@ -138,7 +138,7 @@ export function Projects() {
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 bg-[#2C2416] text-[#F5F1E8] rounded-lg border-2 border-[#8B7355] hover:bg-[#8B7355] transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 bg-[#2C2416] text-portfolio-contrast rounded-lg border-2 border-[#8B7355] hover:bg-[#8B7355] transition-colors"
                     >
                       <Github className="w-4 h-4" />
                       GitHub
@@ -147,7 +147,7 @@ export function Projects() {
                       href={project.demo}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 bg-[#8B7355] text-[#F5F1E8] rounded-lg border-2 border-[#8B7355] hover:bg-[#A68968] transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 bg-[#8B7355] text-portfolio-contrast rounded-lg border-2 border-[#8B7355] hover:bg-[#A68968] transition-colors"
                     >
                       {project.videoDemo ? (
                         <Video className="w-4 h-4" />

@@ -87,15 +87,15 @@ export function PersonalLife() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="bg-white/50 backdrop-blur-sm p-8 rounded-lg border-2 border-[#8B7355] shadow-lg mb-12"
+            className="bg-white/50 tatami:bg-[#575357]/80 backdrop-blur-sm p-8 rounded-lg border-2 border-[#8B7355] shadow-lg mb-12"
           >
             <div className="flex items-center gap-3 mb-4">
               <Heart className="w-8 h-8 text-[#C4A57B]" />
-              <h3 className="text-2xl md:text-3xl text-[#2C2416]">
+              <h3 className="text-2xl md:text-3xl text-portfolio-strong">
                 {t("Un vistazo a mi mundo personal", "A glimpse into my personal world")}
               </h3>
             </div>
-            <p className="text-[#8B7355] text-lg leading-relaxed">
+            <p className="text-portfolio-soft text-lg leading-relaxed">
               {t(
                 "Soy una persona que encuentra equilibrio entre el mundo digital y las experiencias reales. Me apasiona explorar historias a través del anime, mantenerme activo con el voleibol, y disfrutar de momentos estratégicos y divertidos con juegos de mesa. Cada una de estas pasiones me ha enseñado lecciones valiosas que aplico tanto en mi vida personal como en mi carrera profesional.",
                 "I'm a person who finds balance between the digital world and real experiences. I'm passionate about exploring stories through anime, staying active with volleyball, and enjoying strategic and fun moments with board games. Each of these passions has taught me valuable lessons that I apply both in my personal life and in my professional career."
@@ -113,7 +113,7 @@ export function PersonalLife() {
                   initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.3 + index * 0.1, duration: 0.6 }}
-                  className="bg-white/50 backdrop-blur-sm p-8 rounded-lg border-2 border-[#8B7355] shadow-lg hover:shadow-2xl transition-all group"
+                  className="bg-white/50 tatami:bg-[#575357]/80 backdrop-blur-sm p-8 rounded-lg border-2 border-[#8B7355] shadow-lg hover:shadow-2xl transition-all group"
                 >
                   <div className="flex flex-col md:flex-row gap-6">
                     {/* Icono */}
@@ -128,10 +128,10 @@ export function PersonalLife() {
 
                     {/* Contenido */}
                     <div className="flex-1">
-                      <h4 className="text-2xl md:text-3xl text-[#2C2416] mb-3">
+                      <h4 className="text-2xl md:text-3xl text-portfolio-strong mb-3">
                         {interest.title}
                       </h4>
-                      <p className="text-[#8B7355] mb-4 leading-relaxed">
+                      <p className="text-portfolio-soft mb-4 leading-relaxed">
                         {interest.description}
                       </p>
 
@@ -140,7 +140,7 @@ export function PersonalLife() {
                         {interest.favorites.map((fav) => (
                           <span
                             key={fav}
-                            className="px-3 py-1.5 bg-[#2C2416] text-[#C4A57B] text-sm rounded-full border border-[#8B7355]"
+                            className="px-3 py-1.5 bg-[#2C2416] text-portfolio-accent text-sm rounded-full border border-[#8B7355]"
                           >
                             {fav}
                           </span>
@@ -161,13 +161,13 @@ export function PersonalLife() {
             className="mt-12 text-center"
           >
             <div className="inline-block bg-[#2C2416] border-2 border-[#8B7355] rounded-lg p-8 shadow-lg">
-              <p className="text-[#C4A57B] text-xl md:text-2xl italic mb-2">
+              <p className="text-portfolio-accent text-xl md:text-2xl italic mb-2">
                 {t(
                   '"La vida es un equilibrio entre pasión y dedicación"',
                   '"Life is a balance between passion and dedication"'
                 )}
               </p>
-              <p className="text-[#8B7355]">
+              <p className="text-portfolio-soft-on-dark">
                 {t("— Mi filosofía personal", "— My personal philosophy")}
               </p>
             </div>

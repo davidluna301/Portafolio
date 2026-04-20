@@ -69,7 +69,7 @@ export function Home() {
             transition={{ delay: 0.2, duration: 0.5 }}
             className="inline-block mb-6 px-6 py-2 bg-[#2C2416] border-2 border-[#8B7355] rounded-full"
           >
-            <span className="text-[#C4A57B] text-sm tracking-widest">
+            <span className="text-sm tracking-widest text-portfolio-contrast">
               {t("PORTAFOLIO PERSONAL", "PERSONAL PORTFOLIO")}
             </span>
           </motion.div>
@@ -114,7 +114,7 @@ export function Home() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleDownloadCV}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-[#2C2416] text-[#F5F1E8] rounded-lg border-2 border-[#8B7355] hover:bg-[#8B7355] transition-all shadow-lg group"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-[#2C2416] text-portfolio-contrast rounded-lg border-2 border-[#8B7355] hover:bg-[#8B7355] transition-all shadow-lg group"
           >
             <Download className="w-5 h-5 group-hover:animate-bounce" />
             {t("Descargar CV", "Download CV")}

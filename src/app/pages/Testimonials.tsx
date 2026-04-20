@@ -152,7 +152,7 @@ export function Testimonials() {
                             : 'scale-90 opacity-40 hover:opacity-60'
                         }`}
                       >
-                        <div className="bg-white/50 backdrop-blur-sm rounded-lg border-4 border-[#8B7355] shadow-2xl overflow-hidden">
+                        <div className="bg-white/50 tatami:bg-[#575357]/80 backdrop-blur-sm rounded-lg border-4 border-[#8B7355] shadow-2xl overflow-hidden">
                           <div className="px-8 md:px-16 py-12 md:py-20 min-h-[500px] md:min-h-[600px] flex flex-col justify-center">
                             {/* Quote icon decorativo */}
                             <div className="flex justify-center mb-8">
@@ -163,20 +163,20 @@ export function Testimonials() {
 
                             {/* Testimonio */}
                             <blockquote className="text-center mb-10">
-                              <p className="text-xl md:text-2xl lg:text-3xl text-[#2C2416] leading-relaxed mb-8 italic">
+                              <p className="text-xl md:text-2xl lg:text-3xl text-portfolio-strong leading-relaxed mb-8 italic">
                                 "{testimonial.text}"
                               </p>
                             </blockquote>
 
                             {/* Información del cliente */}
                             <div className="text-center">
-                              <h3 className="text-2xl md:text-3xl text-[#2C2416] mb-2">
+                              <h3 className="text-2xl md:text-3xl text-portfolio-strong mb-2">
                                 {testimonial.name}
                               </h3>
-                              <p className="text-lg text-[#8B7355] mb-1">
+                              <p className="text-lg text-portfolio-soft mb-1">
                                 {testimonial.position}
                               </p>
-                              <p className="text-[#C4A57B]">
+                              <p className="text-portfolio-accent">
                                 {testimonial.company}
                               </p>
 
@@ -204,7 +204,7 @@ export function Testimonials() {
 
               {/* Contador de slides */}
               <div className="mt-6 text-center">
-                <span className="inline-block px-4 py-2 bg-[#2C2416] border-2 border-[#8B7355] rounded-full text-[#C4A57B]">
+                <span className="inline-block px-4 py-2 bg-[#2C2416] border-2 border-[#8B7355] rounded-full text-portfolio-accent">
                   {currentSlide + 1} / {testimonials.length}
                 </span>
               </div>

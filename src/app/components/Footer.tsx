@@ -15,8 +15,8 @@ export function Footer() {
       <div className="container mx-auto px-4 md:px-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="text-center md:text-left">
-            <h3 className="text-[#C4A57B] text-lg mb-2">David Alejandro Luna Martinez</h3>
-            <p className="text-[#8B7355] text-sm">
+            <h3 className="text-portfolio-accent text-lg mb-2">David Alejandro Luna Martinez</h3>
+            <p className="text-portfolio-soft-on-dark text-sm">
               {t("Programador Web con IA | Gestión de Datos", "AI Web Developer | Data Management")}
             </p>
           </div>
@@ -24,14 +24,14 @@ export function Footer() {
           <div className="flex flex-col items-center md:items-end gap-2">
             <a
               href="mailto:davidalejandrolunam@hotmail.com"
-              className="inline-flex items-center gap-2 text-[#C4A57B] hover:text-[#F5F1E8] transition-colors text-sm"
+              className="inline-flex items-center gap-2 text-portfolio-accent hover:text-portfolio-contrast transition-colors text-sm"
             >
               <Mail className="w-4 h-4" />
               davidalejandrolunam@hotmail.com
             </a>
             <a
               href="tel:+573184351819"
-              className="inline-flex items-center gap-2 text-[#C4A57B] hover:text-[#F5F1E8] transition-colors text-sm"
+              className="inline-flex items-center gap-2 text-portfolio-accent hover:text-portfolio-contrast transition-colors text-sm"
             >
               <Phone className="w-4 h-4" />
               +57 318 435 1819
@@ -39,7 +39,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-6 pt-6 border-t border-[#8B7355] text-center text-[#8B7355] text-sm">
+        <div className="mt-6 pt-6 border-t border-[#8B7355] text-center text-portfolio-soft-on-dark text-sm">
           <p>
             © 2026 - Colombia, Nariño - {t("Todos los derechos reservados", "All rights reserved")}
           </p>

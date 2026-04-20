@@ -44,17 +44,17 @@ export function TabHint() {
           <div className="bg-[#2C2416] border-2 border-[#8B7355] rounded-lg p-4 shadow-2xl max-w-xs">
             <button
               onClick={handleDismiss}
-              className="absolute top-2 right-2 text-[#8B7355] hover:text-[#C4A57B] transition-colors"
+              className="absolute top-2 right-2 text-portfolio-soft-on-dark hover:text-portfolio-accent transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
 
             <div className="pr-6">
-              <p className="text-[#C4A57B] mb-2">
+              <p className="text-portfolio-accent mb-2">
                 💡 <span className="font-semibold">Consejo</span>
               </p>
-              <p className="text-[#8B7355] text-sm">
-                Presiona <kbd className="px-2 py-1 bg-[#8B7355] text-[#F5F1E8] rounded text-xs mx-1">TAB</kbd> 
+              <p className="text-portfolio-soft-on-dark text-sm">
+                Presiona <kbd className="px-2 py-1 bg-[#8B7355] text-portfolio-contrast rounded text-xs mx-1">TAB</kbd> 
                 para abrir el menú circular de navegación
               </p>
             </div>

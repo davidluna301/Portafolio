@@ -103,7 +103,7 @@ export function Experience() {
             <section>
               <div className="flex items-center gap-3 mb-8">
                 <GraduationCap className="w-8 h-8 text-[#8B7355]" />
-                <h3 className="text-3xl text-[#2C2416]">{t("Formación Académica", "Academic Background")}</h3>
+                <h3 className="text-3xl text-portfolio-strong">{t("Formación Académica", "Academic Background")}</h3>
               </div>
 
               <div className="space-y-6">
@@ -113,20 +113,20 @@ export function Experience() {
                     initial={{ opacity: 0, x: -30 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1, duration: 0.6 }}
-                    className="bg-white/50 backdrop-blur-sm p-8 rounded-lg border-2 border-[#8B7355] shadow-lg"
+                    className="bg-white/50 tatami:bg-[#575357]/80 backdrop-blur-sm p-8 rounded-lg border-2 border-[#8B7355] shadow-lg"
                   >
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-3">
-                      <h4 className="text-xl md:text-2xl text-[#2C2416]">
+                      <h4 className="text-xl md:text-2xl text-portfolio-strong">
                         {edu.degree}
                       </h4>
-                      <div className="flex items-center gap-2 text-[#8B7355] text-sm mt-2 md:mt-0">
+                      <div className="flex items-center gap-2 text-portfolio-soft text-sm mt-2 md:mt-0">
                         <Calendar className="w-4 h-4" />
                         {edu.period}
                       </div>
                     </div>
 
-                    <p className="text-[#C4A57B] mb-3">{edu.institution}</p>
-                    <p className="text-[#8B7355] leading-relaxed">
+                    <p className="text-portfolio-accent mb-3">{edu.institution}</p>
+                    <p className="text-portfolio-soft leading-relaxed">
                       {edu.description}
                     </p>
                   </motion.div>
@@ -138,7 +138,7 @@ export function Experience() {
             <section>
               <div className="flex items-center gap-3 mb-8">
                 <Award className="w-8 h-8 text-[#8B7355]" />
-                <h3 className="text-3xl text-[#2C2416]">{t("Habilidades Técnicas", "Technical Skills")}</h3>
+                <h3 className="text-3xl text-portfolio-strong">{t("Habilidades Técnicas", "Technical Skills")}</h3>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -148,9 +148,9 @@ export function Experience() {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 + index * 0.1, duration: 0.6 }}
-                    className="bg-white/50 backdrop-blur-sm p-6 rounded-lg border-2 border-[#8B7355] shadow-lg"
+                    className="bg-white/50 tatami:bg-[#575357]/80 backdrop-blur-sm p-6 rounded-lg border-2 border-[#8B7355] shadow-lg"
                   >
-                    <h4 className="text-xl text-[#2C2416] mb-4 flex items-center gap-2">
+                    <h4 className="text-xl text-portfolio-strong mb-4 flex items-center gap-2">
                       <div className="w-2 h-2 bg-[#C4A57B] rounded-full" />
                       {skillGroup.category}
                     </h4>
@@ -158,7 +158,7 @@ export function Experience() {
                       {skillGroup.items.map((skill) => (
                         <span
                           key={skill}
-                          className="px-3 py-1.5 bg-[#2C2416] text-[#C4A57B] text-sm rounded-full border border-[#8B7355]"
+                          className="px-3 py-1.5 bg-[#2C2416] text-portfolio-accent text-sm rounded-full border border-[#8B7355]"
                         >
                           {skill}
                         </span>
