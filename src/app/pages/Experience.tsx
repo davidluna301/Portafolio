@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { GraduationCap, Calendar, Award } from "lucide-react";
+import { PageShell } from "../components/PageShell";
 import { useLanguage } from "../contexts/LanguageContext";
 
 export function Experience() {
@@ -14,8 +15,7 @@ export function Experience() {
       description: t(
         "Formación universitaria en ingeniería de software con enfoque en desarrollo de aplicaciones modernas, arquitectura de software, bases de datos y metodologías ágiles. Aplicando conocimientos en proyectos reales y tecnologías de vanguardia.",
         "University training in software engineering focused on modern application development, software architecture, databases, and agile methodologies. Applying knowledge in real projects and cutting-edge technologies."
-      ),
-      honors: ""
+      )
     },
     {
       id: 2,
@@ -25,8 +25,7 @@ export function Experience() {
       description: t(
         "Formación técnica especializada en sistemas informáticos, desarrollo de software y gestión de tecnologías de la información. Base sólida en programación y administración de sistemas.",
         "Specialized technical training in computer systems, software development, and information technology management. Strong foundation in programming and systems administration."
-      ),
-      honors: ""
+      )
     },
   ];
 
@@ -60,28 +59,7 @@ export function Experience() {
     }
   ];
   return (
-    <div className="min-h-screen py-20 md:py-32 px-4 pb-24 md:pb-32 relative overflow-hidden">
-      {/* Fondo decorativo estilo tatami */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="w-full h-full" style={{
-          backgroundImage: `repeating-linear-gradient(
-            0deg,
-            #2C2416,
-            #2C2416 2px,
-            transparent 2px,
-            transparent 40px
-          ),
-          repeating-linear-gradient(
-            90deg,
-            #2C2416,
-            #2C2416 2px,
-            transparent 2px,
-            transparent 80px
-          )`
-        }} />
-      </div>
-
-      <div className="container mx-auto max-w-7xl relative z-10">
+    <PageShell>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -170,7 +148,6 @@ export function Experience() {
             </section>
           </div>
         </motion.div>
-      </div>
-    </div>
+    </PageShell>
   );
 }

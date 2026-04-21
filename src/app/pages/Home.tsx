@@ -5,6 +5,7 @@ import cvFileEn from "../../imports/CV_David_Luna_English.pdf";
 import logoImage from "../../imports/logoDM.png";
 import logoImageLight from "../../imports/image-0.png";
 import profileImage from "../../imports/photo.png";
+import { PageShell } from "../components/PageShell";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useTheme } from "../contexts/ThemeContext";
 
@@ -25,28 +26,10 @@ export function Home() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-20 md:py-0 pb-24 md:pb-0 relative overflow-hidden">
-      {/* Fondo decorativo estilo tatami */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="w-full h-full" style={{
-          backgroundImage: `repeating-linear-gradient(
-            0deg,
-            #2C2416,
-            #2C2416 2px,
-            transparent 2px,
-            transparent 40px
-          ),
-          repeating-linear-gradient(
-            90deg,
-            #2C2416,
-            #2C2416 2px,
-            transparent 2px,
-            transparent 80px
-          )`
-        }} />
-      </div>
-
-      <div className="container mx-auto max-w-6xl relative z-10">
+    <PageShell
+      className="flex items-center justify-center px-4 py-20 md:py-0 pb-24 md:pb-0"
+      containerClassName="max-w-6xl"
+    >
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -150,7 +133,6 @@ export function Home() {
             <div className="h-px w-20 bg-primary" />
           </motion.div>
         </motion.div>
-      </div>
 
       {/* Scroll indicator */}
       <motion.div
@@ -163,6 +145,6 @@ export function Home() {
           <ChevronDown className="w-6 h-6 animate-bounce" />
         </div>
       </motion.div>
-    </div>
+    </PageShell>
   );
 }

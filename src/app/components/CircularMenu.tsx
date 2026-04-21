@@ -1,16 +1,7 @@
 import { useNavigate } from "react-router";
-import { Home, User, Briefcase, MessageSquare, GraduationCap, Mail, Heart } from "lucide-react";
 import { useState } from "react";
-
-const menuItems = [
-  { path: "/", icon: Home, label: "Inicio" },
-  { path: "/about", icon: User, label: "Acerca de mí" },
-  { path: "/projects", icon: Briefcase, label: "Proyectos" },
-  { path: "/testimonials", icon: MessageSquare, label: "Testimonios" },
-  { path: "/experience", icon: GraduationCap, label: "Experiencia" },
-  { path: "/personal", icon: Heart, label: "Conóceme mejor" },
-  { path: "/contact", icon: Mail, label: "Contacto" },
-];
+import { getNavigationLabel, navigationItems } from "../config/navigation";
+import { useLanguage } from "../contexts/LanguageContext";
 
 interface CircularMenuProps {
   position: { x: number; y: number };
@@ -20,9 +11,10 @@ interface CircularMenuProps {
 export function CircularMenu({ position, onClose }: CircularMenuProps) {
   const navigate = useNavigate();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const { t } = useLanguage();
   
   const radius = 120;
-  const angleStep = (2 * Math.PI) / menuItems.length;
+  const angleStep = (2 * Math.PI) / navigationItems.length;
 
   const handleClick = (path: string) => {
     navigate(path);
@@ -43,12 +35,13 @@ export function CircularMenu({ position, onClose }: CircularMenuProps) {
       </div>
 
       {/* Items del menú circular */}
-      {menuItems.map((item, index) => {
+      {navigationItems.map((item, index) => {
         const Icon = item.icon;
         const angle = index * angleStep - Math.PI / 2; // Comenzar desde arriba
         const x = position.x + radius * Math.cos(angle);
         const y = position.y + radius * Math.sin(angle);
         const isHovered = hoveredIndex === index;
+        const label = getNavigationLabel(item, t);
 
         return (
           <div key={item.path}>
@@ -104,7 +97,7 @@ export function CircularMenu({ position, onClose }: CircularMenuProps) {
               {/* Label */}
               {isHovered && (
                 <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-3 py-1 bg-[#2C2416] text-[#F5F1E8] text-sm rounded whitespace-nowrap border border-[#8B7355]">
-                  {item.label}
+                  {label}
                 </div>
               )}
             </button>

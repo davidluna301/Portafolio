@@ -4,6 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { motion } from "motion/react";
 import { Quote } from "lucide-react";
+import { PageShell } from "../components/PageShell";
 import { useLanguage } from "../contexts/LanguageContext";
 
 export function Testimonials() {
@@ -21,7 +22,6 @@ export function Testimonials() {
         "Trabajar con este desarrollador fue una experiencia excepcional. Su atención al detalle y capacidad para transformar ideas en realidad es impresionante. El proyecto se entregó a tiempo y superó todas nuestras expectativas.",
         "Working with this developer was an exceptional experience. His attention to detail and ability to transform ideas into reality is impressive. The project was delivered on time and exceeded all our expectations."
       ),
-      image: "https://images.unsplash.com/photo-1748346918817-0b1b6b2f9bab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBvZmZpY2UlMjBwcm9mZXNzaW9uYWx8ZW58MXx8fHwxNzc0MjQ3OTMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
       rating: 5,
     },
     {
@@ -33,7 +33,6 @@ export function Testimonials() {
         "Su dominio de las tecnologías modernas y su enfoque en la experiencia del usuario hacen que cada proyecto sea un éxito. La comunicación fue fluida y siempre estuvo dispuesto a adaptarse a nuestras necesidades cambiantes.",
         "His mastery of modern technologies and focus on user experience make every project a success. Communication was smooth and he was always willing to adapt to our changing needs."
       ),
-      image: "https://images.unsplash.com/photo-1748346918817-0b1b6b2f9bab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBvZmZpY2UlMjBwcm9mZXNzaW9uYWx8ZW58MXx8fHwxNzc0MjQ3OTMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
       rating: 5,
     },
     {
@@ -45,7 +44,6 @@ export function Testimonials() {
         "No solo cumplió con los requisitos técnicos, sino que también aportó ideas creativas que mejoraron significativamente nuestro producto. Su profesionalismo y dedicación son excepcionales. Definitivamente volveremos a trabajar juntos.",
         "He not only met the technical requirements, but also provided creative ideas that significantly improved our product. His professionalism and dedication are exceptional. We will definitely work together again."
       ),
-      image: "https://images.unsplash.com/photo-1748346918817-0b1b6b2f9bab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBvZmZpY2UlMjBwcm9mZXNzaW9uYWx8ZW58MXx8fHwxNzc0MjQ3OTMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
       rating: 5,
     },
     {
@@ -57,7 +55,6 @@ export function Testimonials() {
         "Un verdadero profesional que entiende tanto el lado técnico como el empresarial del desarrollo. Su código es limpio, bien documentado y fácil de mantener. Una colaboración excelente de principio a fin.",
         "A true professional who understands both the technical and business side of development. His code is clean, well documented and easy to maintain. An excellent collaboration from start to finish."
       ),
-      image: "https://images.unsplash.com/photo-1748346918817-0b1b6b2f9bab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBvZmZpY2UlMjBwcm9mZXNzaW9uYWx8ZW58MXx8fHwxNzc0MjQ3OTMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
       rating: 5,
     },
   ];
@@ -95,28 +92,7 @@ export function Testimonials() {
   };
 
   return (
-    <div className="min-h-screen py-20 md:py-32 px-4 pb-24 md:pb-32 relative overflow-hidden">
-      {/* Fondo decorativo estilo tatami */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="w-full h-full" style={{
-          backgroundImage: `repeating-linear-gradient(
-            0deg,
-            #2C2416,
-            #2C2416 2px,
-            transparent 2px,
-            transparent 40px
-          ),
-          repeating-linear-gradient(
-            90deg,
-            #2C2416,
-            #2C2416 2px,
-            transparent 2px,
-            transparent 80px
-          )`
-        }} />
-      </div>
-
-      <div className="container mx-auto max-w-7xl relative z-10">
+    <PageShell>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -211,7 +187,6 @@ export function Testimonials() {
             </div>
           </div>
         </motion.div>
-      </div>
-    </div>
+    </PageShell>
   );
 }

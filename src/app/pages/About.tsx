@@ -1,25 +1,8 @@
-import { useEffect, useRef, useState } from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import { useState } from "react";
 import { motion } from "motion/react";
 import profileImage from "../../imports/photo.png";
+import { PageShell } from "../components/PageShell";
 import { useLanguage } from "../contexts/LanguageContext";
-
-const images = [
-  {
-    url: "https://images.unsplash.com/photo-1722510154425-abad1f97b362?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqYXBhbmVzZSUyMHRhdGFtaSUyMHJvb20lMjBpbnRlcmlvcnxlbnwxfHx8fDE3NzQzMTUxMTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    alt: "Espacio de trabajo 1"
-  },
-  {
-    url: "https://images.unsplash.com/photo-1644337540803-2b2fb3cebf12?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwd29ya3NwYWNlJTIwZGVza3xlbnwxfHx8fDE3NzQzMDY2NTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    alt: "Espacio de trabajo 2"
-  },
-  {
-    url: "https://images.unsplash.com/photo-1656613031370-7d2af1275810?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx6ZW4lMjBnYXJkZW4lMjBzdG9uZXN8ZW58MXx8fHwxNzc0MzE1MTEyfDA&ixlib=rb-4.1.0&q=80&w=1080",
-    alt: "Espacio zen"
-  },
-];
 
 export function About() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -44,28 +27,7 @@ export function About() {
   };
 
   return (
-    <div className="min-h-screen py-20 md:py-32 px-4 pb-24 md:pb-32 relative overflow-hidden">
-      {/* Fondo decorativo estilo tatami */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="w-full h-full" style={{
-          backgroundImage: `repeating-linear-gradient(
-            0deg,
-            #2C2416,
-            #2C2416 2px,
-            transparent 2px,
-            transparent 40px
-          ),
-          repeating-linear-gradient(
-            90deg,
-            #2C2416,
-            #2C2416 2px,
-            transparent 2px,
-            transparent 80px
-          )`
-        }} />
-      </div>
-
-      <div className="container mx-auto max-w-7xl relative z-10">
+    <PageShell>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -146,7 +108,6 @@ export function About() {
             </motion.div>
           </div>
         </motion.div>
-      </div>
-    </div>
+    </PageShell>
   );
 }

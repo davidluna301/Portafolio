@@ -1,33 +1,13 @@
 import { motion } from "motion/react";
 import { Mail, Phone, MapPin } from "lucide-react";
+import { PageShell } from "../components/PageShell";
 import { useLanguage } from "../contexts/LanguageContext";
 
 export function Contact() {
   const { t } = useLanguage();
 
   return (
-    <div className="min-h-screen py-20 md:py-32 px-4 pb-24 md:pb-32 relative overflow-hidden">
-      {/* Fondo decorativo estilo tatami */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="w-full h-full" style={{
-          backgroundImage: `repeating-linear-gradient(
-            0deg,
-            #2C2416,
-            #2C2416 2px,
-            transparent 2px,
-            transparent 40px
-          ),
-          repeating-linear-gradient(
-            90deg,
-            #2C2416,
-            #2C2416 2px,
-            transparent 2px,
-            transparent 80px
-          )`
-        }} />
-      </div>
-
-      <div className="container mx-auto max-w-7xl relative z-10">
+    <PageShell>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -125,7 +105,6 @@ export function Contact() {
             </motion.div>
           </div>
         </motion.div>
-      </div>
-    </div>
+    </PageShell>
   );
 }
