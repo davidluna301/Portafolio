@@ -54,7 +54,7 @@ export function PersonalLife() {
               {t("Conóceme Mejor", "Get to Know Me")}
             </h2>
             <div className="w-20 h-1 bg-primary mx-auto md:mx-0 mb-4" />
-            <p className="text-muted-foreground text-lg max-w-2xl">
+            <p className="text-muted-foreground text-lg max-w-2xl text-justify">
               {t(
                 "Más allá del código, estas son las pasiones que dan forma a mi vida y personalidad.",
                 "Beyond code, these are the passions that shape my life and personality."
@@ -75,7 +75,7 @@ export function PersonalLife() {
                 {t("Un vistazo a mi mundo personal", "A glimpse into my personal world")}
               </h3>
             </div>
-            <p className="text-portfolio-soft text-lg leading-relaxed">
+            <p className="text-portfolio-soft text-lg leading-relaxed text-justify">
               {t(
                 "Soy una persona que encuentra equilibrio entre el mundo digital y las experiencias reales. Me apasiona explorar historias a través del anime, mantenerme activo con el voleibol, y disfrutar de momentos estratégicos y divertidos con juegos de mesa. Cada una de estas pasiones me ha enseñado lecciones valiosas que aplico tanto en mi vida personal como en mi carrera profesional.",
                 "I'm a person who finds balance between the digital world and real experiences. I'm passionate about exploring stories through anime, staying active with volleyball, and enjoying strategic and fun moments with board games. Each of these passions has taught me valuable lessons that I apply both in my personal life and in my professional career."
@@ -111,7 +111,7 @@ export function PersonalLife() {
                       <h4 className="text-2xl md:text-3xl text-portfolio-strong mb-3">
                         {interest.title}
                       </h4>
-                      <p className="text-portfolio-soft mb-4 leading-relaxed">
+                      <p className="text-portfolio-soft mb-4 leading-relaxed text-justify">
                         {interest.description}
                       </p>
 

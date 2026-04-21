@@ -17,7 +17,7 @@ export function Footer() {
           <div className="text-center md:text-left">
             <h3 className="text-portfolio-accent text-lg mb-2">David Alejandro Luna Martinez</h3>
             <p className="text-portfolio-soft-on-dark text-sm">
-              {t("Programador Web con IA | Gestión de Datos", "AI Web Developer | Data Management")}
+              {t("Programador Web | Gestión de Datos", "Web Developer | Data Management")}
             </p>
           </div>
 

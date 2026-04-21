@@ -63,7 +63,7 @@ export function Projects() {
               {t("Mis Proyectos", "My Projects")}
             </h2>
             <div className="w-20 h-1 bg-primary mx-auto md:mx-0 mb-4" />
-            <p className="text-muted-foreground text-lg max-w-2xl">
+            <p className="text-muted-foreground text-lg max-w-2xl text-justify">
               {t(
                 "Una selección de proyectos que demuestran mi experiencia y habilidades en desarrollo web.",
                 "A selection of projects that demonstrate my experience and skills in web development."
@@ -96,7 +96,7 @@ export function Projects() {
                   <h3 className="text-2xl text-portfolio-strong mb-3">
                     {project.title}
                   </h3>
-                  <p className="text-portfolio-soft mb-4 leading-relaxed">
+                  <p className="text-portfolio-soft mb-4 leading-relaxed text-justify">
                     {project.description}
                   </p>
 

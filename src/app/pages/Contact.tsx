@@ -19,7 +19,7 @@ export function Contact() {
               {t("Contacto", "Contact")}
             </h2>
             <div className="w-20 h-1 bg-primary mx-auto md:mx-0 mb-4" />
-            <p className="text-muted-foreground text-lg max-w-2xl">
+            <p className="text-muted-foreground text-lg max-w-2xl text-justify">
               {t(
                 "¿Tienes un proyecto en mente? No dudes en contactarme.",
                 "Have a project in mind? Don't hesitate to contact me."

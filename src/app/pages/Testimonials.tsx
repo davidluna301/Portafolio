@@ -104,7 +104,7 @@ export function Testimonials() {
               {t("Testimonios", "Testimonials")}
             </h2>
             <div className="w-20 h-1 bg-primary mx-auto mb-4" />
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto text-justify">
               {t(
                 "Lo que dicen mis clientes sobre mi trabajo y dedicación.",
                 "What my clients say about my work and dedication."
@@ -139,7 +139,7 @@ export function Testimonials() {
 
                             {/* Testimonio */}
                             <blockquote className="text-center mb-10">
-                              <p className="text-xl md:text-2xl lg:text-3xl text-portfolio-strong leading-relaxed mb-8 italic">
+                              <p className="text-xl md:text-2xl lg:text-3xl text-portfolio-strong leading-relaxed mb-8 italic text-justify">
                                 "{testimonial.text}"
                               </p>
                             </blockquote>

@@ -35,12 +35,12 @@ export function Experience() {
       items: ["React", "Next.js", "TypeScript", "JavaScript", "HTML/CSS", "Tailwind CSS"]
     },
     {
-      category: t("Inteligencia Artificial", "Artificial Intelligence"),
+      category: t("Arquitectura y Datos", "Architecture and Data"),
       items: [
-        t("Integración de IA", "AI Integration"),
+        t("Integración de Sistemas", "Systems Integration"),
         t("Procesamiento de Datos", "Data Processing"),
-        "Machine Learning",
-        t("APIs de IA", "AI APIs")
+        t("Optimización de Procesos", "Process Optimization"),
+        "REST APIs"
       ]
     },
     {
@@ -71,7 +71,7 @@ export function Experience() {
               {t("Experiencia", "Experience")}
             </h2>
             <div className="w-20 h-1 bg-primary mx-auto md:mx-0 mb-4" />
-            <p className="text-muted-foreground text-lg max-w-2xl">
+            <p className="text-muted-foreground text-lg max-w-2xl text-justify">
               {t("Mi formación académica y habilidades técnicas.", "My academic background and technical skills.")}
             </p>
           </div>
@@ -104,7 +104,7 @@ export function Experience() {
                     </div>
 
                     <p className="text-portfolio-accent mb-3">{edu.institution}</p>
-                    <p className="text-portfolio-soft leading-relaxed">
+                    <p className="text-portfolio-soft leading-relaxed text-justify">
                       {edu.description}
                     </p>
                   </motion.div>

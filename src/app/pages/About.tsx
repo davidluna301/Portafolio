@@ -70,22 +70,22 @@ export function About() {
                 <h3 className="text-2xl md:text-3xl text-portfolio-strong mb-4">
                   {t("Mi Historia", "My Story")}
                 </h3>
-                <p className="text-portfolio-soft text-base md:text-lg leading-relaxed mb-4">
+                <p className="text-portfolio-soft text-base md:text-lg leading-relaxed mb-4 text-justify">
                   {t(
-                    "Soy un programador web apasionado por integrar tecnologías de inteligencia artificial en soluciones prácticas y funcionales. Mi enfoque principal es el desarrollo de sistemas robustos para la gestión eficiente de datos.",
-                    "I am a web developer passionate about integrating artificial intelligence technologies into practical and functional solutions. My main focus is developing robust systems for efficient data management."
+                    "Soy un programador web apasionado por crear soluciones prácticas y funcionales. Mi enfoque principal es el desarrollo de sistemas robustos para la gestión eficiente de datos.",
+                    "I am a web developer passionate about creating practical and functional solutions. My main focus is developing robust systems for efficient data management."
                   )}
                 </p>
-                <p className="text-portfolio-soft text-base md:text-lg leading-relaxed mb-4">
+                <p className="text-portfolio-soft text-base md:text-lg leading-relaxed mb-4 text-justify">
                   {t(
                     "Me especializo en crear aplicaciones que combinan funcionalidad avanzada con interfaces intuitivas, siempre buscando optimizar procesos y mejorar la experiencia del usuario a través de soluciones innovadoras.",
                     "I specialize in creating applications that combine advanced functionality with intuitive interfaces, always seeking to optimize processes and improve user experience through innovative solutions."
                   )}
                 </p>
-                <p className="text-portfolio-soft text-base md:text-lg leading-relaxed">
+                <p className="text-portfolio-soft text-base md:text-lg leading-relaxed text-justify">
                   {t(
-                    "Cada proyecto representa un desafío único donde aplico las mejores prácticas de desarrollo, implemento arquitecturas escalables y aprovecho las capacidades de la inteligencia artificial para crear herramientas que realmente marquen la diferencia.",
-                    "Each project represents a unique challenge where I apply best development practices, implement scalable architectures, and leverage artificial intelligence capabilities to create tools that truly make a difference."
+                    "Cada proyecto representa un desafío único donde aplico las mejores prácticas de desarrollo, implemento arquitecturas escalables y creo herramientas que realmente marquen la diferencia.",
+                    "Each project represents a unique challenge where I apply best development practices, implement scalable architectures, and build tools that truly make a difference."
                   )}
                 </p>
               </div>
@@ -93,9 +93,9 @@ export function About() {
               {/* Habilidades destacadas */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-[#2C2416] p-6 rounded-lg border-2 border-[#8B7355] text-center">
-                  <div className="text-3xl md:text-4xl text-portfolio-accent mb-2">{t("IA", "AI")}</div>
+                  <div className="text-3xl md:text-4xl text-portfolio-accent mb-2">{t("Software", "Software")}</div>
                   <div className="text-portfolio-soft-on-dark text-sm md:text-base">
-                    {t("Desarrollo con IA", "AI Development")}
+                    {t("Desarrollo Web", "Web Development")}
                   </div>
                 </div>
                 <div className="bg-[#2C2416] p-6 rounded-lg border-2 border-[#8B7355] text-center">
