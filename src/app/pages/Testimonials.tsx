@@ -22,16 +22,6 @@ export function Testimonials() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Auto-advance vertical carousel on mobile
-  useEffect(() => {
-    if (!isMobile) return;
-    const timer = setInterval(() => {
-      setDirection(1);
-      setCurrentSlide((prev) => (prev + 1) % testimonials.length);
-    }, 6000);
-    return () => clearInterval(timer);
-  }, [isMobile]);
-
   const testimonials = [
     {
       id: 1,
@@ -87,8 +77,7 @@ export function Testimonials() {
     slidesToScroll: 1,
     centerMode: true,
     centerPadding: "20%",
-    autoplay: true,
-    autoplaySpeed: 10000,
+    autoplay: false,
     arrows: false,
     beforeChange: (_current: number, next: number) => setCurrentSlide(next),
     dotsClass: "slick-dots !bottom-8",
