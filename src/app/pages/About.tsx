@@ -48,7 +48,7 @@ export function About() {
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="order-2 lg:order-1"
+              className="order-2 lg:order-1 mx-auto w-full max-w-[220px] md:max-w-[280px]"
             >
               <div className="relative rounded-lg overflow-hidden border-4 border-[#8B7355] shadow-2xl bg-[#2C2416]">
                 <img

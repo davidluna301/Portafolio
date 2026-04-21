@@ -59,7 +59,7 @@ export function Home() {
             <img
               src={profileImage}
               alt="Foto de David Luna"
-              className="w-28 h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 object-cover rounded-full border-4 border-[#8B7355] shadow-xl"
+              className="w-36 h-36 md:w-44 md:h-44 lg:w-52 lg:h-52 object-cover rounded-full border-4 border-[#8B7355] shadow-xl"
             />
           </motion.div>
 
