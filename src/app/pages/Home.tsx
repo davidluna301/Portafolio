@@ -1,6 +1,7 @@
 import { Download, ChevronDown } from "lucide-react";
 import { motion } from "motion/react";
-import cvFile from "../../imports/CV_David_Luna.pdf";
+import cvFileEs from "../../imports/CV_David_Luna.pdf";
+import cvFileEn from "../../imports/CV_David_Luna_English.pdf";
 import logoImage from "../../imports/logoDM.png";
 import logoImageLight from "../../imports/image-0.png";
 import profileImage from "../../imports/photo.png";
@@ -8,13 +9,16 @@ import { useLanguage } from "../contexts/LanguageContext";
 import { useTheme } from "../contexts/ThemeContext";
 
 export function Home() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const { theme } = useTheme();
   const handleDownloadCV = () => {
+    const cvFile = language === "en" ? cvFileEn : cvFileEs;
+    const cvFileName = language === "en" ? "CV_David_Luna_English.pdf" : "CV_David_Luna.pdf";
+
     // Crear un enlace temporal para descargar el CV
     const link = document.createElement('a');
     link.href = cvFile;
-    link.download = 'CV_David_Luna.pdf';
+    link.download = cvFileName;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
