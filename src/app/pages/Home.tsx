@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import cvFile from "../../imports/CV_David_Luna.pdf";
 import logoImage from "../../imports/logoDM.png";
 import logoImageLight from "../../imports/image-0.png";
+import profileImage from "../../imports/photo.png";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useTheme } from "../contexts/ThemeContext";
 
@@ -59,6 +60,19 @@ export function Home() {
               src={theme === "tatami" ? logoImageLight : logoImage}
               alt="Logo David Luna"
               className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 object-contain"
+            />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.18, duration: 0.6 }}
+            className="flex justify-center mb-6"
+          >
+            <img
+              src={profileImage}
+              alt="Foto de David Luna"
+              className="w-28 h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 object-cover rounded-full border-4 border-[#8B7355] shadow-xl"
             />
           </motion.div>
 
