@@ -1,57 +1,65 @@
-import { useMemo, useState } from "react";
+import { useState, type ComponentType } from "react";
 import { motion } from "motion/react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Home } from "./Home";
+import { About } from "./About";
+import { Projects } from "./Projects";
+import { Testimonials } from "./Testimonials";
+import { Experience } from "./Experience";
+import { PersonalLife } from "./PersonalLife";
+import { Contact } from "./Contact";
 
 type Stage = "wireframe" | "content" | "color";
 
-type SectionBlueprint = {
+type ProcessPage = {
   id: string;
   title: string;
-  description: string;
-  blocks: string[];
+  component: ComponentType;
+  wireframeBlocks: string[];
 };
 
-const sections: SectionBlueprint[] = [
+const pages: ProcessPage[] = [
   {
     id: "home",
     title: "Home",
-    description: "Presentación inicial, foto principal y llamada a la acción.",
-    blocks: ["Header", "Foto Perfil", "Nombre + Rol", "Botón CV"],
+    component: Home,
+    wireframeBlocks: ["Header principal", "Foto de perfil", "Nombre + rol", "CTA / descarga CV"],
   },
   {
     id: "about",
     title: "About",
-    description: "Contexto personal y profesional con narrativa resumida.",
-    blocks: ["Título", "Foto Secundaria", "Historia", "Cards de enfoque"],
+    component: About,
+    wireframeBlocks: ["Título de sección", "Foto secundaria", "Historia", "Bloques de enfoque"],
   },
   {
     id: "projects",
     title: "Projects",
-    description: "Galería de proyectos con resumen técnico y resultado.",
-    blocks: ["Título", "Grid de Proyectos", "Descripción", "Enlaces"],
+    component: Projects,
+    wireframeBlocks: ["Título", "Grid de proyectos", "Descripción por proyecto", "Acciones / enlaces"],
   },
   {
     id: "testimonials",
     title: "Testimonials",
-    description: "Opiniones de clientes con foco en credibilidad.",
-    blocks: ["Título", "Carrusel", "Tarjeta Testimonio", "Rating"],
+    component: Testimonials,
+    wireframeBlocks: ["Título", "Carrusel", "Tarjeta testimonio", "Calificación"],
   },
   {
     id: "experience",
     title: "Experience",
-    description: "Trayectoria, estudios y habilidades técnicas.",
-    blocks: ["Título", "Timeline", "Habilidades", "Bloques de stack"],
+    component: Experience,
+    wireframeBlocks: ["Título", "Timeline", "Habilidades", "Bloques de stack"],
   },
   {
     id: "personal",
     title: "Personal",
-    description: "Intereses y dimensión personal para humanizar el perfil.",
-    blocks: ["Título", "Resumen Personal", "Intereses", "Visual de apoyo"],
+    component: PersonalLife,
+    wireframeBlocks: ["Título", "Resumen personal", "Intereses", "Visual de apoyo"],
   },
   {
     id: "contact",
     title: "Contact",
-    description: "Canales de contacto y conversión final.",
-    blocks: ["Título", "Formulario", "Redes", "CTA"],
+    component: Contact,
+    wireframeBlocks: ["Título", "Formulario", "Redes", "CTA"],
   },
 ];
 
@@ -63,73 +71,73 @@ const stageLabels: Record<Stage, string> = {
 
 const stageOrder: Stage[] = ["wireframe", "content", "color"];
 
-function ProcessSection({
-  section,
-  stage,
-}: {
-  section: SectionBlueprint;
-  stage: Stage;
-}) {
-  const stageHint = useMemo(() => {
-    if (stage === "wireframe") {
-      return "Vista estructural: solo jerarquía y contenedores.";
-    }
-
-    if (stage === "content") {
-      return "Vista de contenido: textos, imágenes y mensajes clave.";
-    }
-
-    return "Vista visual final: aplicación de color, contraste y estilo.";
-  }, [stage]);
-
-  const blockStyle =
-    stage === "wireframe"
-      ? "border-2 border-dashed border-[#8A8F99] bg-transparent text-[#E5E7EB]"
-      : stage === "content"
-        ? "border border-[#8A8F99] bg-[#171A20] text-[#E5E7EB]"
-        : "border border-[#37D1BE] bg-[#1C2C2A] text-[#D9FFF9]";
-
+function WireframeSection({ page }: { page: ProcessPage }) {
   return (
     <motion.section
-      initial={{ opacity: 0.2, y: 60 }}
+      initial={{ opacity: 0.15, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ amount: 0.45, once: false }}
+      viewport={{ amount: 0.4, once: false }}
       transition={{ duration: 0.55, ease: "easeOut" }}
-      className="min-h-[82vh] rounded-2xl border border-[#2A2F39] bg-[#12151B] p-6 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.35)]"
+      className="min-h-[78vh] rounded-2xl border border-[#5D6470] bg-[#10131A] p-6 md:p-10"
     >
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <h3 className="text-2xl md:text-3xl font-semibold tracking-wide text-[#EAF2FF]">
-          {section.title}
+          {page.title}
         </h3>
-        <span className="rounded-full border border-[#3F4755] bg-[#0E1117] px-3 py-1 text-sm text-[#AEB8C7]">
-          {stageLabels[stage]}
+        <span className="rounded-full border border-[#5D6470] bg-[#0C0F15] px-3 py-1 text-sm text-[#AAB3C0]">
+          {stageLabels.wireframe}
         </span>
       </div>
 
-      <p className="mb-8 text-sm md:text-base leading-relaxed text-[#BBC4D2]">
-        {section.description}
-      </p>
-
-      <p className="mb-5 text-xs md:text-sm uppercase tracking-[0.2em] text-[#8A95A8]">
-        {stageHint}
+      <p className="mb-6 text-sm md:text-base text-[#B5BFCE]">
+        Esquema estructural. Solo se muestra qué va en cada lugar de la página.
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {section.blocks.map((block, index) => (
+        {page.wireframeBlocks.map((block, index) => (
           <motion.div
             key={block}
-            initial={{ opacity: 0, y: 14 }}
+            initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ amount: 0.7, once: false }}
-            transition={{ duration: 0.3, delay: index * 0.05 }}
-            className={`h-24 rounded-xl px-4 py-3 flex items-center ${blockStyle}`}
+            viewport={{ amount: 0.8, once: false }}
+            transition={{ duration: 0.3, delay: index * 0.06 }}
+            className="h-24 rounded-xl border-2 border-dashed border-[#8B93A1] bg-transparent px-4 py-3 flex items-center"
           >
             <div>
-              <p className="text-[11px] uppercase tracking-[0.18em] opacity-70">Contenedor</p>
-              <p className="text-base md:text-lg">{block}</p>
+              <p className="text-[11px] uppercase tracking-[0.18em] text-[#8B93A1]">Zona</p>
+              <p className="text-base md:text-lg text-[#EAF2FF]">{block}</p>
             </div>
           </motion.div>
         ))}
+      </div>
+    </motion.section>
+  );
+}
+
+function RenderPageByStage({ page, stage }: { page: ProcessPage; stage: Stage }) {
+  if (stage === "wireframe") {
+    return <WireframeSection page={page} />;
+  }
+
+  const PageComponent = page.component;
+  const stageClass = stage === "content" ? "process-stage-content" : "process-stage-final";
+
+  return (
+    <motion.section
+      initial={{ opacity: 0.15, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ amount: 0.3, once: false }}
+      transition={{ duration: 0.55, ease: "easeOut" }}
+      className="rounded-2xl border border-[#2A2F39] overflow-hidden"
+    >
+      <div className="flex items-center justify-between gap-3 px-4 md:px-6 py-3 border-b border-[#2A2F39] bg-[#0D1118]">
+        <h3 className="text-base md:text-lg text-[#EAF2FF]">{page.title}</h3>
+        <span className="rounded-full border border-[#3F4755] bg-[#0E1117] px-3 py-1 text-xs md:text-sm text-[#AEB8C7]">
+          {stageLabels[stage]}
+        </span>
+      </div>
+      <div className={stageClass}>
+        <PageComponent />
       </div>
     </motion.section>
   );
@@ -158,17 +166,17 @@ export function Process() {
       <button
         onClick={goBack}
         disabled={stageIndex === 0}
-        className="fixed top-5 left-3 md:left-8 z-40 rounded-lg border border-[#3E4656] bg-[#10141D] px-3 md:px-4 py-2 text-sm md:text-base text-[#D7DEEB] disabled:opacity-40 disabled:cursor-not-allowed"
+        className="fixed top-1/2 -translate-y-1/2 left-2 md:left-6 z-40 rounded-full border border-[#3E4656] bg-[#10141D] w-11 h-11 md:w-12 md:h-12 text-[#D7DEEB] flex items-center justify-center disabled:opacity-35 disabled:cursor-not-allowed"
       >
-        ← Back
+        <ChevronLeft className="w-6 h-6" />
       </button>
 
       <button
         onClick={goForward}
         disabled={stageIndex === stageOrder.length - 1}
-        className="fixed top-5 right-3 md:right-8 z-40 rounded-lg border border-[#3E4656] bg-[#10141D] px-3 md:px-4 py-2 text-sm md:text-base text-[#D7DEEB] disabled:opacity-40 disabled:cursor-not-allowed"
+        className="fixed top-1/2 -translate-y-1/2 right-2 md:right-6 z-40 rounded-full border border-[#3E4656] bg-[#10141D] w-11 h-11 md:w-12 md:h-12 text-[#D7DEEB] flex items-center justify-center disabled:opacity-35 disabled:cursor-not-allowed"
       >
-        Forward →
+        <ChevronRight className="w-6 h-6" />
       </button>
 
       <div className="mx-auto max-w-6xl">
@@ -177,8 +185,7 @@ export function Process() {
             Process
           </h1>
           <p className="mt-4 text-sm md:text-base text-[#AEB8C7] max-w-3xl mx-auto leading-relaxed">
-            Ruta de construcción del portafolio, página por página. Esta vista muestra
-            el avance por etapas: estructura, contenido y acabado visual.
+            Evolución del portafolio por etapas: wireframe, contenido y resultado final.
           </p>
         </header>
 
@@ -202,11 +209,30 @@ export function Process() {
         </div>
 
         <div className="space-y-8 md:space-y-12">
-          {sections.map((section) => (
-            <ProcessSection key={section.id} section={section} stage={stage} />
+          {pages.map((page) => (
+            <RenderPageByStage key={page.id} page={page} stage={stage} />
           ))}
         </div>
       </div>
+
+      <style>{`
+        .process-stage-content {
+          filter: saturate(0.35) contrast(1.02) brightness(0.95);
+        }
+
+        .process-stage-content img,
+        .process-stage-content svg {
+          opacity: 0.9;
+        }
+
+        .process-stage-content * {
+          transition: filter 220ms ease, opacity 220ms ease;
+        }
+
+        .process-stage-final {
+          filter: none;
+        }
+      `}</style>
     </div>
   );
 }
