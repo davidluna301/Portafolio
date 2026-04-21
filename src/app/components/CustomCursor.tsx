@@ -3,8 +3,36 @@ import { useEffect, useState } from "react";
 export function CustomCursor() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+
+    const updateDeviceMode = (event: MediaQueryList | MediaQueryListEvent) => {
+      setIsDesktop(event.matches);
+    };
+
+    updateDeviceMode(mediaQuery);
+
+    const handleViewportChange = (event: MediaQueryListEvent) => {
+      updateDeviceMode(event);
+    };
+
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", handleViewportChange);
+      return () => mediaQuery.removeEventListener("change", handleViewportChange);
+    }
+
+    mediaQuery.addListener(handleViewportChange);
+    return () => mediaQuery.removeListener(handleViewportChange);
+  }, []);
+
+  useEffect(() => {
+    if (!isDesktop) {
+      setIsHovering(false);
+      return;
+    }
+
     const updateCursorPosition = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
     };
@@ -44,7 +72,11 @@ export function CustomCursor() {
       document.removeEventListener("mouseover", handleMouseOver);
       document.removeEventListener("mouseout", handleMouseOut);
     };
-  }, []);
+  }, [isDesktop]);
+
+  if (!isDesktop) {
+    return null;
+  }
 
   return (
     <>

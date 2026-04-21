@@ -156,7 +156,6 @@ export function Home() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:block"
       >
         <div className="flex flex-col items-center gap-2 text-muted-foreground">
-          <span className="text-sm">{t("Desliza para explorar", "Scroll to explore")}</span>
           <ChevronDown className="w-6 h-6 animate-bounce" />
         </div>
       </motion.div>

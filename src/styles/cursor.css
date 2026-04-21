@@ -65,3 +65,20 @@ body {
 a, button, [role="button"], input, textarea, select {
   cursor: none;
 }
+
+@media (max-width: 767px) {
+  body,
+  a,
+  button,
+  [role="button"],
+  input,
+  textarea,
+  select {
+    cursor: auto;
+  }
+
+  .custom-cursor,
+  .custom-cursor-ring {
+    display: none;
+  }
+}
