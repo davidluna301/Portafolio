@@ -48,7 +48,7 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: #131317;
   --foreground: oklch(0.985 0 0);
   --portfolio-text-strong: #F5F1E8;
   --portfolio-text-soft: #D4C4B0;
@@ -59,8 +59,8 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.145 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.205 0 0);
+  --primary: #37D1BE;
+  --primary-foreground: #131317;
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);

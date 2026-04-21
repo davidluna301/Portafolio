@@ -35,7 +35,7 @@ export function About() {
         >
           {/* Título */}
           <div className="mb-12 text-center md:text-left">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl text-foreground mb-4">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl text-primary mb-4">
               {t("Acerca de mí", "About me")}
             </h2>
             <div className="w-20 h-1 bg-primary mx-auto md:mx-0" />

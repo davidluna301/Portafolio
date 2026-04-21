@@ -100,7 +100,7 @@ export function Testimonials() {
         >
           {/* Título */}
           <div className="mb-16 text-center">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl text-foreground mb-4">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl text-primary mb-4">
               {t("Testimonios", "Testimonials")}
             </h2>
             <div className="w-20 h-1 bg-primary mx-auto mb-4" />
