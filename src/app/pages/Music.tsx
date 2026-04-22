@@ -375,6 +375,17 @@ export function Music() {
         }}
       />
 
+      {!hideChrome && (
+        <button
+          type="button"
+          onClick={pickMusicFolder}
+          className="absolute right-5 top-5 z-20 rounded-xl border border-white/25 bg-black/30 p-3 text-white backdrop-blur-md transition hover:bg-white/15 md:right-7 md:top-7"
+          aria-label="Choose music folder"
+        >
+          <FolderOpen className="h-5 w-5" />
+        </button>
+      )}
+
       <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6">
         <button
           type="button"
@@ -421,15 +432,6 @@ export function Music() {
           </div>
 
           <div className="flex flex-col items-center gap-3 rounded-2xl border border-white/20 bg-black/25 px-3 py-4 backdrop-blur-xl">
-            <button
-              type="button"
-              onClick={pickMusicFolder}
-              className="rounded-xl border border-white/25 bg-black/30 p-3 text-white transition hover:bg-white/15"
-              aria-label="Choose music folder"
-            >
-              <FolderOpen className="h-5 w-5" />
-            </button>
-
             <button
               type="button"
               onClick={goPrev}
@@ -517,15 +519,6 @@ export function Music() {
         </div>
 
         <div className="hidden flex-wrap items-center justify-center gap-3 rounded-2xl border border-white/20 bg-black/25 px-4 py-3 backdrop-blur-xl lg:flex">
-          <button
-            type="button"
-            onClick={pickMusicFolder}
-            className="rounded-xl border border-white/25 bg-black/30 p-3 text-white transition hover:bg-white/15"
-            aria-label="Choose music folder"
-          >
-            <FolderOpen className="h-5 w-5" />
-          </button>
-
           <button
             type="button"
             onClick={goPrev}
