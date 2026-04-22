@@ -63,18 +63,6 @@ export function Home() {
             />
           </motion.div>
 
-          {/* Badge decorativo */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            className="inline-block mb-6 px-6 py-2 bg-[#2C2416] border-2 border-[#8B7355] rounded-full"
-          >
-            <span className="text-sm tracking-widest text-portfolio-contrast">
-              {t("PORTAFOLIO PERSONAL", "PERSONAL PORTFOLIO")}
-            </span>
-          </motion.div>
-
           {/* Nombre */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}

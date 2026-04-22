@@ -136,7 +136,7 @@ export function Experience() {
                       {skillGroup.items.map((skill) => (
                         <span
                           key={skill}
-                          className="px-3 py-1.5 bg-[#2C2416] text-portfolio-accent text-sm rounded-full border border-[#8B7355]"
+                          className="px-3 py-1.5 bg-[#2C2416] text-white text-sm rounded-full border border-[#8B7355]"
                         >
                           {skill}
                         </span>
