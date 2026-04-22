@@ -299,7 +299,7 @@ export function Music() {
           </div>
         )}
 
-        <div className="mb-8 flex w-full max-w-sm items-center justify-center gap-4 md:hidden">
+        <div className="mb-8 flex w-full max-w-sm items-center justify-center gap-4 lg:hidden">
           <div className="flex h-64 w-16 items-center justify-center rounded-2xl border border-white/25 bg-black/35 backdrop-blur-xl">
             <div className="relative h-52 w-2 overflow-hidden rounded-full bg-white/20">
               <div
@@ -387,7 +387,7 @@ export function Music() {
           </div>
         </div>
 
-        <div className="mb-8 hidden w-full max-w-3xl rounded-full border border-white/25 bg-black/35 px-4 py-3 backdrop-blur-xl md:block">
+        <div className="mb-8 hidden w-full max-w-3xl rounded-full border border-white/25 bg-black/35 px-4 py-3 backdrop-blur-xl lg:block">
           <div className="relative h-2 w-full overflow-hidden rounded-full bg-white/20">
             <div
               className="absolute left-0 top-0 h-full rounded-full bg-white transition-[width] duration-150"
@@ -407,7 +407,7 @@ export function Music() {
           </div>
         </div>
 
-        <div className="hidden flex-wrap items-center justify-center gap-3 rounded-2xl border border-white/20 bg-black/25 px-4 py-3 backdrop-blur-xl md:flex">
+        <div className="hidden flex-wrap items-center justify-center gap-3 rounded-2xl border border-white/20 bg-black/25 px-4 py-3 backdrop-blur-xl lg:flex">
           <button
             type="button"
             onClick={goPrev}
