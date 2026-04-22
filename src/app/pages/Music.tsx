@@ -276,31 +276,37 @@ export function Music() {
         </button>
 
         {currentTrack && (
-          <h1
-            className="mb-8 max-w-5xl text-center text-2xl font-semibold tracking-wide md:text-4xl"
-            style={{
-              background: `linear-gradient(90deg, #f8fafc ${progressPercent}%, rgba(248, 250, 252, 0.38) ${progressPercent}%)`,
-              WebkitBackgroundClip: "text",
-              backgroundClip: "text",
-              color: "transparent",
-            }}
-          >
-            {currentTrack.name}
-          </h1>
+          <div className="mb-8 w-full max-w-5xl">
+            <h1 className="relative mx-auto w-fit max-w-full text-center text-2xl font-semibold tracking-wide text-white/35 md:text-4xl">
+              {currentTrack.name}
+              <span
+                className="pointer-events-none absolute left-0 top-0 overflow-hidden whitespace-nowrap text-white"
+                style={{ width: `${progressPercent}%` }}
+              >
+                {currentTrack.name}
+              </span>
+            </h1>
+          </div>
         )}
 
         <div className="mb-8 w-full max-w-3xl rounded-full border border-white/25 bg-black/35 px-4 py-3 backdrop-blur-xl">
-          <input
-            type="range"
-            min={0}
-            max={duration > 0 ? duration : 0}
-            step={0.1}
-            value={duration > 0 ? Math.min(currentTime, duration) : 0}
-            onChange={(e) => handleSeek(Number(e.target.value))}
-            className="h-1.5 w-full cursor-pointer accent-white"
-            aria-label="Track progress"
-            disabled={noMusicLoaded || duration <= 0}
-          />
+          <div className="relative h-2 w-full overflow-hidden rounded-full bg-white/20">
+            <div
+              className="absolute left-0 top-0 h-full rounded-full bg-white transition-[width] duration-150"
+              style={{ width: `${progressPercent}%` }}
+            />
+            <input
+              type="range"
+              min={0}
+              max={duration > 0 ? duration : 100}
+              step={0.1}
+              value={duration > 0 ? Math.min(currentTime, duration) : 0}
+              onChange={(e) => handleSeek(Number(e.target.value))}
+              className="absolute left-0 top-0 h-full w-full cursor-pointer opacity-0"
+              aria-label="Track progress"
+              disabled={noMusicLoaded || duration <= 0}
+            />
+          </div>
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-3 rounded-2xl border border-white/20 bg-black/25 px-4 py-3 backdrop-blur-xl">

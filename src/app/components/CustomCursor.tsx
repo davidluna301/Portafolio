@@ -56,7 +56,7 @@ export function CustomCursor({ forceLight = false, hideUntilMove = false }: Cust
         }
         hideTimerRef.current = window.setTimeout(() => {
           setIsVisible(false);
-        }, 900);
+        }, 3000);
       }
     };
 
