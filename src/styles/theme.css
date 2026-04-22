@@ -242,3 +242,9 @@
     line-height: 1.5;
   }
 }
+
+@layer utilities {
+  .dark [class*="text-"] {
+    color: #FFFFFF !important;
+  }
+}
