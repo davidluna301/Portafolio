@@ -1,0 +1,351 @@
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useOutletContext } from "react-router";
+import { Repeat, Repeat1, Shuffle, SkipBack, SkipForward, Volume2, VolumeX } from "lucide-react";
+
+type LayoutOutletContext = {
+  hideChrome: boolean;
+  setHideChrome: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+type RepeatMode = "all" | "one";
+
+type Track = {
+  src: string;
+  name: string;
+};
+
+const tracksModules = import.meta.glob("../../imports/music/*.{mp3,wav,ogg,m4a,aac,flac}", {
+  eager: true,
+  import: "default",
+}) as Record<string, string>;
+
+const playlist: Track[] = Object.entries(tracksModules)
+  .map(([path, src]) => {
+    const rawName = path.split("/").pop() ?? "track";
+    const cleaned = decodeURIComponent(rawName).replace(/\.[^/.]+$/, "");
+
+    return {
+      src,
+      name: cleaned,
+    };
+  })
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+export function Music() {
+  const { hideChrome, setHideChrome } = useOutletContext<LayoutOutletContext>();
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
+  const contextRef = useRef<AudioContext | null>(null);
+  const frameRef = useRef<number | null>(null);
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isShuffle, setIsShuffle] = useState(false);
+  const [repeatMode, setRepeatMode] = useState<RepeatMode>("all");
+  const [volume, setVolume] = useState(0.8);
+  const [energy, setEnergy] = useState(0.06);
+  const [rhythm, setRhythm] = useState(0.08);
+
+  const currentTrack = playlist[currentIndex] ?? null;
+
+  const randomIndex = useCallback((exceptIndex: number) => {
+    if (playlist.length <= 1) return exceptIndex;
+
+    let next = exceptIndex;
+    while (next === exceptIndex) {
+      next = Math.floor(Math.random() * playlist.length);
+    }
+
+    return next;
+  }, []);
+
+  const goNext = useCallback(() => {
+    if (playlist.length === 0) return;
+
+    setCurrentIndex((prev) => {
+      if (isShuffle) return randomIndex(prev);
+      return (prev + 1) % playlist.length;
+    });
+  }, [isShuffle, randomIndex]);
+
+  const goPrev = useCallback(() => {
+    if (playlist.length === 0) return;
+
+    setCurrentIndex((prev) => {
+      if (isShuffle) return randomIndex(prev);
+      return (prev - 1 + playlist.length) % playlist.length;
+    });
+  }, [isShuffle, randomIndex]);
+
+  const goRandom = useCallback(() => {
+    if (playlist.length === 0) return;
+    setCurrentIndex((prev) => randomIndex(prev));
+  }, [randomIndex]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    audio.volume = volume;
+  }, [volume]);
+
+  useEffect(() => {
+    if (!currentTrack || !audioRef.current) return;
+
+    const audio = audioRef.current;
+    audio.src = currentTrack.src;
+
+    if (isPlaying) {
+      void audio.play().catch(() => {
+        setIsPlaying(false);
+      });
+    }
+  }, [currentTrack, isPlaying]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (isPlaying) {
+      void audio.play().catch(() => {
+        setIsPlaying(false);
+      });
+    } else {
+      audio.pause();
+    }
+  }, [isPlaying]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || !currentTrack) return;
+
+    const onEnded = () => {
+      if (repeatMode === "one") {
+        audio.currentTime = 0;
+        void audio.play();
+        return;
+      }
+
+      goNext();
+    };
+
+    audio.addEventListener("ended", onEnded);
+    return () => audio.removeEventListener("ended", onEnded);
+  }, [repeatMode, goNext, currentTrack]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || !isPlaying || !currentTrack) return;
+
+    if (!contextRef.current) {
+      contextRef.current = new AudioContext();
+    }
+
+    const context = contextRef.current;
+
+    if (context.state === "suspended") {
+      void context.resume();
+    }
+
+    if (!sourceRef.current) {
+      sourceRef.current = context.createMediaElementSource(audio);
+    }
+
+    if (!analyserRef.current) {
+      analyserRef.current = context.createAnalyser();
+      analyserRef.current.fftSize = 1024;
+      sourceRef.current.connect(analyserRef.current);
+      analyserRef.current.connect(context.destination);
+    }
+
+    const analyser = analyserRef.current;
+    const data = new Uint8Array(analyser.frequencyBinCount);
+
+    const tick = () => {
+      analyser.getByteFrequencyData(data);
+      let sum = 0;
+      let weightedIndex = 0;
+
+      for (let i = 0; i < data.length; i += 1) {
+        const normalized = data[i] / 255;
+        sum += normalized;
+        weightedIndex += normalized * i;
+      }
+
+      const avg = sum / data.length;
+      const centroid = sum > 0 ? weightedIndex / sum / data.length : 0;
+
+      setEnergy((prev) => prev * 0.75 + avg * 0.25);
+      setRhythm((prev) => prev * 0.75 + centroid * 0.25);
+
+      frameRef.current = requestAnimationFrame(tick);
+    };
+
+    frameRef.current = requestAnimationFrame(tick);
+
+    return () => {
+      if (frameRef.current) cancelAnimationFrame(frameRef.current);
+      frameRef.current = null;
+    };
+  }, [isPlaying, currentTrack]);
+
+  useEffect(() => {
+    return () => {
+      if (frameRef.current) cancelAnimationFrame(frameRef.current);
+      if (contextRef.current) {
+        void contextRef.current.close();
+      }
+    };
+  }, []);
+
+  const vibe = useMemo(() => {
+    const pulseSize = 24 + energy * 120;
+    const speed = Math.max(0.85, 2.8 - energy * 3 - rhythm * 1.2);
+
+    const gradientA = `hsl(${Math.round(280 + rhythm * 70)}, 95%, ${Math.max(18, 30 + energy * 38)}%)`;
+    const gradientB = `hsl(${Math.round(180 + energy * 120)}, 88%, ${Math.max(12, 22 + rhythm * 32)}%)`;
+    const gradientC = `hsl(${Math.round(10 + energy * 70)}, 90%, ${Math.max(14, 24 + energy * 30)}%)`;
+
+    return {
+      pulseSize,
+      speed,
+      gradientA,
+      gradientB,
+      gradientC,
+    };
+  }, [energy, rhythm]);
+
+  const toggleRepeat = () => {
+    setRepeatMode((prev) => (prev === "all" ? "one" : "all"));
+  };
+
+  const noMusicLoaded = playlist.length === 0;
+
+  return (
+    <div
+      className="relative min-h-screen w-full overflow-hidden"
+      style={{
+        background: `radial-gradient(circle at 20% 20%, ${vibe.gradientA}, transparent 44%), radial-gradient(circle at 80% 72%, ${vibe.gradientB}, transparent 42%), linear-gradient(125deg, ${vibe.gradientC}, #060608 72%)`,
+      }}
+    >
+      <audio ref={audioRef} preload="metadata" />
+
+      <div
+        className="pointer-events-none absolute -left-16 -top-20 h-[45vh] w-[45vh] rounded-full opacity-80 blur-2xl"
+        style={{
+          background: `radial-gradient(circle, rgba(255,255,255,0.38) 0%, rgba(255,255,255,0) ${vibe.pulseSize}%)`,
+          animation: `musicPulse ${vibe.speed}s ease-in-out infinite alternate`,
+        }}
+      />
+
+      <div
+        className="pointer-events-none absolute -right-20 -bottom-24 h-[50vh] w-[50vh] rounded-full opacity-70 blur-2xl"
+        style={{
+          background: `radial-gradient(circle, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0) ${vibe.pulseSize + 8}%)`,
+          animation: `musicPulse ${Math.max(0.65, vibe.speed - 0.35)}s ease-in-out infinite alternate-reverse`,
+        }}
+      />
+
+      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6">
+        <button
+          type="button"
+          onClick={() => setHideChrome((prev) => !prev)}
+          className="mb-10 h-16 w-16 rounded-full border border-white/30 bg-black/20 text-white backdrop-blur-md transition hover:scale-105 hover:bg-black/35"
+          aria-label="Toggle immersive mode"
+        >
+          {hideChrome ? "◉" : "◎"}
+        </button>
+
+        {currentTrack && (
+          <h1 className="mb-10 max-w-5xl text-center text-2xl font-semibold tracking-wide text-white md:text-4xl">
+            {currentTrack.name}
+          </h1>
+        )}
+
+        <div className="flex flex-wrap items-center justify-center gap-3 rounded-2xl border border-white/20 bg-black/25 px-4 py-3 backdrop-blur-xl">
+          <button
+            type="button"
+            onClick={goPrev}
+            className="rounded-xl border border-white/25 bg-black/30 p-3 text-white transition hover:bg-white/15"
+            aria-label="Previous track"
+            disabled={noMusicLoaded}
+          >
+            <SkipBack className="h-5 w-5" />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsShuffle((prev) => !prev)}
+            className={`rounded-xl border p-3 transition ${isShuffle ? "border-emerald-300 bg-emerald-500/30 text-white" : "border-white/25 bg-black/30 text-white hover:bg-white/15"}`}
+            aria-label="Shuffle"
+            disabled={noMusicLoaded}
+          >
+            <Shuffle className="h-5 w-5" />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsPlaying((prev) => !prev)}
+            className="min-w-28 rounded-xl border border-white/30 bg-white/15 px-5 py-3 text-lg font-semibold text-white transition hover:bg-white/25"
+            disabled={noMusicLoaded}
+          >
+            {isPlaying ? "||" : ">"}
+          </button>
+
+          <button
+            type="button"
+            onClick={toggleRepeat}
+            className={`rounded-xl border p-3 transition ${repeatMode === "one" ? "border-amber-300 bg-amber-500/30 text-white" : "border-white/25 bg-black/30 text-white hover:bg-white/15"}`}
+            aria-label="Repeat mode"
+            disabled={noMusicLoaded}
+          >
+            {repeatMode === "one" ? <Repeat1 className="h-5 w-5" /> : <Repeat className="h-5 w-5" />}
+          </button>
+
+          <button
+            type="button"
+            onClick={goRandom}
+            className="rounded-xl border border-white/25 bg-black/30 p-3 text-white transition hover:bg-white/15"
+            aria-label="Random track"
+            disabled={noMusicLoaded}
+          >
+            <Shuffle className="h-5 w-5" />
+          </button>
+
+          <button
+            type="button"
+            onClick={goNext}
+            className="rounded-xl border border-white/25 bg-black/30 p-3 text-white transition hover:bg-white/15"
+            aria-label="Next track"
+            disabled={noMusicLoaded}
+          >
+            <SkipForward className="h-5 w-5" />
+          </button>
+
+          <div className="ml-2 flex items-center gap-2 rounded-xl border border-white/20 bg-black/30 px-3 py-2 text-white">
+            {volume <= 0.01 ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+            <input
+              type="range"
+              min={0}
+              max={1}
+              step={0.01}
+              value={volume}
+              onChange={(e) => setVolume(Number(e.target.value))}
+              className="h-1 w-24 accent-white md:w-36"
+              aria-label="Volume"
+              disabled={noMusicLoaded}
+            />
+          </div>
+        </div>
+      </div>
+
+      <style>{`
+        @keyframes musicPulse {
+          0% { transform: scale(0.92) translate3d(0, 0, 0); opacity: 0.35; }
+          100% { transform: scale(1.12) translate3d(0, -1.6%, 0); opacity: 0.9; }
+        }
+      `}</style>
+    </div>
+  );
+}

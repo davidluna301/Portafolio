@@ -1,4 +1,4 @@
-import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
 import { Sidebar } from "./Sidebar";
 import { Footer } from "./Footer";
 import { CircularMenu } from "./CircularMenu";
@@ -9,7 +9,13 @@ import { useEffect, useState } from "react";
 
 export function Layout() {
   const [showCircularMenu, setShowCircularMenu] = useState(false);
+  const [hideChrome, setHideChrome] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+  const location = useLocation();
+
+  useEffect(() => {
+    setHideChrome(false);
+  }, [location.pathname]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -43,24 +49,24 @@ export function Layout() {
   return (
     <div className="min-h-screen bg-background relative transition-colors duration-300">
       {/* Custom Cursor */}
-      <CustomCursor />
+      {!hideChrome && <CustomCursor />}
 
       {/* Theme Toggle */}
-      <ThemeToggle />
+      {!hideChrome && <ThemeToggle />}
 
       {/* Sidebar */}
-      <Sidebar />
+      {!hideChrome && <Sidebar />}
 
       {/* Main Content */}
-      <main className="md:ml-20 lg:ml-24 transition-all">
-        <Outlet />
+      <main className={hideChrome ? "transition-all" : "md:ml-20 lg:ml-24 transition-all"}>
+        <Outlet context={{ hideChrome, setHideChrome }} />
       </main>
 
       {/* Footer */}
-      <Footer />
+      {!hideChrome && <Footer />}
 
       {/* Circular Menu (solo desktop) */}
-      {showCircularMenu && (
+      {showCircularMenu && !hideChrome && (
         <CircularMenu
           position={menuPosition}
           onClose={() => {
@@ -71,7 +77,7 @@ export function Layout() {
       )}
 
       {/* Tab Hint */}
-      {!showCircularMenu && <TabHint />}
+      {!showCircularMenu && !hideChrome && <TabHint />}
     </div>
   );
 }

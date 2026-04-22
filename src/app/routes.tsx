@@ -7,6 +7,7 @@ import { Testimonials } from "./pages/Testimonials";
 import { Experience } from "./pages/Experience";
 import { Contact } from "./pages/Contact";
 import { PersonalLife } from "./pages/PersonalLife";
+import { Music } from "./pages/Music";
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ export const router = createBrowserRouter([
       { path: "testimonials", Component: Testimonials },
       { path: "experience", Component: Experience },
       { path: "personal", Component: PersonalLife },
+      { path: "music", Component: Music },
       { path: "contact", Component: Contact },
     ],
   },
