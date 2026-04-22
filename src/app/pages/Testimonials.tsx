@@ -25,45 +25,34 @@ export function Testimonials() {
   const testimonials = [
     {
       id: 1,
-      name: "María González",
-      position: t("CEO, Tech Innovations", "CEO, Tech Innovations"),
-      company: "Tech Innovations Inc.",
+      name: "Soraida Pulido",
+      position: t("Gerente Administrativa", "Administrative Manager"),
+      company: "",
       text: t(
-        "Trabajar con este desarrollador fue una experiencia excepcional. Su atención al detalle y capacidad para transformar ideas en realidad es impresionante. El proyecto se entregó a tiempo y superó todas nuestras expectativas.",
-        "Working with this developer was an exceptional experience. His attention to detail and ability to transform ideas into reality is impressive. The project was delivered on time and exceeded all our expectations."
+        "Eres una persona dinámica y orientada al detalle, con excelente trato al cliente. Nuestra experiencia contigo nos ha mostrado tu lado profesional y tu desempeño; destaco tu comunicación efectiva, tu trabajo eficaz y proactivo.",
+        "You are a dynamic and detail-oriented person, with excellent customer service. Our experience with you has shown us your professional side and your performance; I highlight your effective communication, your efficient and proactive work."
       ),
       rating: 5,
     },
     {
       id: 2,
-      name: "Carlos Rodríguez",
-      position: t("Director de Producto", "Product Director"),
-      company: "Digital Solutions",
+      name: "Francisco Micolta",
+      position: t("Gerente", "Manager"),
+      company: "Scolart SAS by Artesco",
       text: t(
-        "Su dominio de las tecnologías modernas y su enfoque en la experiencia del usuario hacen que cada proyecto sea un éxito. La comunicación fue fluida y siempre estuvo dispuesto a adaptarse a nuestras necesidades cambiantes.",
-        "His mastery of modern technologies and focus on user experience make every project a success. Communication was smooth and he was always willing to adapt to our changing needs."
+        "Eres el tipo de trabajador hábil que se esfuerza en cumplir las tareas y metas establecidas; aprovechas las oportunidades que se te brindan y ejerces tu labor con entusiasmo, ganándote así nuestra confianza. Nos alegra que hayas conseguido aprender y acompañarnos todo este tiempo.",
+        "You are the kind of skilled worker who strives to meet assigned tasks and goals; you make the most of the opportunities given to you and carry out your work with enthusiasm, earning our trust. We are glad you have learned and accompanied us all this time."
       ),
       rating: 5,
     },
     {
       id: 3,
-      name: "Ana Martínez",
-      position: t("Fundadora", "Founder"),
-      company: "StartUp Creative",
+      name: "Juan David Guerra",
+      position: t("Jefe de Compras", "Purchasing Manager"),
+      company: "Distribuciones El Dorado",
       text: t(
-        "No solo cumplió con los requisitos técnicos, sino que también aportó ideas creativas que mejoraron significativamente nuestro producto. Su profesionalismo y dedicación son excepcionales. Definitivamente volveremos a trabajar juntos.",
-        "He not only met the technical requirements, but also provided creative ideas that significantly improved our product. His professionalism and dedication are exceptional. We will definitely work together again."
-      ),
-      rating: 5,
-    },
-    {
-      id: 4,
-      name: "David López",
-      position: "CTO",
-      company: "Enterprise Systems",
-      text: t(
-        "Un verdadero profesional que entiende tanto el lado técnico como el empresarial del desarrollo. Su código es limpio, bien documentado y fácil de mantener. Una colaboración excelente de principio a fin.",
-        "A true professional who understands both the technical and business side of development. His code is clean, well documented and easy to maintain. An excellent collaboration from start to finish."
+        "Te conozco como una persona persistente, trabajadora y enfocada en resultados, con un excelente trato a los clientes y un buen manejo comercial. Te considero una persona versátil y orientada al cumplimiento de metas desafiantes.",
+        "I know you as a persistent, hardworking person focused on results, with excellent client relations and strong commercial skills. I consider you a versatile person, driven toward the achievement of challenging goals."
       ),
       rating: 5,
     },
