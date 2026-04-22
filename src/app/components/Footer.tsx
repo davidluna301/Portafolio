@@ -1,9 +1,12 @@
 import { Mail, Phone } from "lucide-react";
 import { motion } from "motion/react";
+import { useLocation } from "react-router";
 import { useLanguage } from "../contexts/LanguageContext";
 
 export function Footer() {
   const { t } = useLanguage();
+  const location = useLocation();
+  const isMusicPage = location.pathname === "/music";
 
   return (
     <motion.footer
@@ -11,7 +14,7 @@ export function Footer() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
       data-cursor-light-zone="true"
-      className="bg-[#2C2416] border-t-4 border-[#8B7355] py-8 md:ml-20 lg:ml-24 mt-16"
+      className={`bg-[#2C2416] border-t-4 border-[#8B7355] py-8 md:ml-20 lg:ml-24 ${isMusicPage ? "mt-0" : "mt-16"}`}
     >
       <div className="container mx-auto px-4 md:px-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
