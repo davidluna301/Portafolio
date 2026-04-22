@@ -53,6 +53,7 @@ export function Music() {
   const [rhythm, setRhythm] = useState(0.08);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [isVerticalSeeking, setIsVerticalSeeking] = useState(false);
 
   const currentTrack = playlist[currentIndex] ?? null;
 
@@ -337,6 +338,37 @@ export function Music() {
     setCurrentTime(value);
   };
 
+  const handleVerticalSeek = useCallback(
+    (clientY: number, rect: DOMRect) => {
+      if (playlist.length === 0 || duration <= 0) return;
+
+      const clampedY = Math.min(Math.max(clientY, rect.top), rect.bottom);
+      const ratioFromBottom = (rect.bottom - clampedY) / rect.height;
+      handleSeek(ratioFromBottom * duration);
+    },
+    [duration, playlist.length],
+  );
+
+  const onVerticalPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (playlist.length === 0 || duration <= 0) return;
+
+    e.currentTarget.setPointerCapture(e.pointerId);
+    setIsVerticalSeeking(true);
+    handleVerticalSeek(e.clientY, e.currentTarget.getBoundingClientRect());
+  };
+
+  const onVerticalPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isVerticalSeeking) return;
+    handleVerticalSeek(e.clientY, e.currentTarget.getBoundingClientRect());
+  };
+
+  const onVerticalPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    }
+    setIsVerticalSeeking(false);
+  };
+
   const noMusicLoaded = playlist.length === 0;
   const progressPercent = duration > 0 ? Math.min((currentTime / duration) * 100, 100) : 0;
 
@@ -411,16 +443,18 @@ export function Music() {
                 className="absolute bottom-0 left-0 w-full rounded-full bg-white transition-[height] duration-150"
                 style={{ height: `${progressPercent}%` }}
               />
-              <input
-                type="range"
-                min={0}
-                max={duration > 0 ? duration : 100}
-                step={0.1}
-                value={duration > 0 ? Math.min(currentTime, duration) : 0}
-                onChange={(e) => handleSeek(Number(e.target.value))}
-                className="absolute left-1/2 top-1/2 h-52 w-8 -translate-x-1/2 -translate-y-1/2 rotate-[-90deg] cursor-pointer opacity-0"
+              <div
+                role="slider"
                 aria-label="Track progress"
-                disabled={noMusicLoaded || duration <= 0}
+                aria-valuemin={0}
+                aria-valuemax={duration > 0 ? duration : 0}
+                aria-valuenow={duration > 0 ? Math.min(currentTime, duration) : 0}
+                aria-disabled={noMusicLoaded || duration <= 0}
+                className="absolute -inset-x-5 inset-y-0 touch-none"
+                onPointerDown={onVerticalPointerDown}
+                onPointerMove={onVerticalPointerMove}
+                onPointerUp={onVerticalPointerUp}
+                onPointerCancel={onVerticalPointerUp}
               />
             </div>
           </div>
