@@ -82,11 +82,11 @@ export function Projects() {
                 className="group bg-white/50 tatami:bg-[#575357]/80 backdrop-blur-sm rounded-lg overflow-hidden border-2 border-[#8B7355] shadow-lg hover:shadow-2xl transition-all hover:scale-[1.02]"
               >
                 {/* Imagen del proyecto */}
-                <div className="relative h-64 overflow-hidden bg-[#2C2416] flex items-center justify-center">
+                <div className="relative h-64 overflow-hidden bg-[#2C2416]">
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#2C2416]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>

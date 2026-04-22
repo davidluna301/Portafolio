@@ -55,18 +55,6 @@ export function Contact() {
 
                   <div className="flex items-start gap-4">
                     <div className="p-3 bg-[#2C2416] rounded-lg border-2 border-[#8B7355]">
-                      <Mail className="w-5 h-5 text-[#C4A57B]" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-portfolio-strong mb-1">{t("Email Institucional", "Institutional Email")}</p>
-                      <a href="mailto:david.lunamar@campusucc.edu.co" className="text-portfolio-soft hover:text-portfolio-accent transition-colors break-all">
-                        david.lunamar@campusucc.edu.co
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 bg-[#2C2416] rounded-lg border-2 border-[#8B7355]">
                       <Phone className="w-5 h-5 text-[#C4A57B]" />
                     </div>
                     <div>

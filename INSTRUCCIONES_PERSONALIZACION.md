@@ -138,7 +138,6 @@ npm run preview
 ## 📞 Contacto en el Portafolio
 
 - Personal: davidalejandrolunam@hotmail.com
-- Institucional: david.lunamar@campusucc.edu.co
 - WhatsApp: +57 318 435 1819
 - Ubicación: Colombia, Nariño
 
