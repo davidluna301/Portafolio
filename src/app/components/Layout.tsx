@@ -6,11 +6,13 @@ import { TabHint } from "./TabHint";
 import { ThemeToggle } from "./ThemeToggle";
 import { CustomCursor } from "./CustomCursor";
 import { useEffect, useState } from "react";
+import { useTheme } from "../contexts/ThemeContext";
 
 export function Layout() {
   const [showCircularMenu, setShowCircularMenu] = useState(false);
   const [hideChrome, setHideChrome] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+  const { toggleTheme } = useTheme();
   const location = useLocation();
   const isMusicPage = location.pathname === "/music";
 
@@ -20,6 +22,20 @@ export function Layout() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      const isTypingTarget =
+        !!target &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.tagName === "SELECT" ||
+          target.isContentEditable);
+
+      if (e.shiftKey && e.key.toLowerCase() === "q" && !isTypingTarget) {
+        e.preventDefault();
+        toggleTheme();
+        return;
+      }
+
       if (e.key === "Tab" && !e.shiftKey && window.innerWidth >= 768) {
         e.preventDefault();
         if (!showCircularMenu) {
@@ -45,7 +61,7 @@ export function Layout() {
       window.removeEventListener("keydown", handleKeyDown);
       document.body.style.cursor = "auto";
     };
-  }, [showCircularMenu]);
+  }, [showCircularMenu, toggleTheme]);
 
   return (
     <div className="min-h-screen bg-background relative transition-colors duration-300">
