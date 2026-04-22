@@ -89,8 +89,8 @@ export function Testimonials() {
 
   /* ── Shared card renderer ───────────────────────────────── */
   const TestimonialCard = ({ testimonial }: { testimonial: typeof testimonials[number] }) => (
-    <div className="bg-white/50 tatami:bg-[#575357]/80 backdrop-blur-sm rounded-lg border-4 border-[#8B7355] shadow-2xl overflow-hidden">
-      <div className="px-6 md:px-16 py-8 md:py-20 flex flex-col justify-center">
+    <div className="bg-white/50 tatami:bg-[#575357]/80 backdrop-blur-sm rounded-lg border-4 border-[#8B7355] shadow-2xl overflow-hidden min-h-[420px] md:min-h-[520px]">
+      <div className="px-6 md:px-16 py-8 md:py-20 flex flex-col justify-between h-full">
         {/* Quote icon */}
         <div className="flex justify-center mb-5 md:mb-8">
           <div className="w-12 h-12 md:w-16 md:h-16 bg-[#2C2416] rounded-full flex items-center justify-center border-2 border-[#8B7355]">
@@ -99,7 +99,7 @@ export function Testimonials() {
         </div>
 
         {/* Texto */}
-        <blockquote className="text-center mb-6 md:mb-10">
+        <blockquote className="flex-1 flex items-center text-center mb-6 md:mb-10">
           <p className="text-base md:text-2xl lg:text-3xl text-portfolio-strong leading-relaxed italic text-justify">
             "{testimonial.text}"
           </p>
