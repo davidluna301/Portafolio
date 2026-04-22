@@ -10,6 +10,7 @@ export function Footer() {
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
+      data-cursor-light-zone="true"
       className="bg-[#2C2416] border-t-4 border-[#8B7355] py-8 md:ml-20 lg:ml-24 mt-16"
     >
       <div className="container mx-auto px-4 md:px-8">
