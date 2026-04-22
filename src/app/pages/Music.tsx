@@ -398,14 +398,8 @@ export function Music() {
 
         {currentTrack && (
           <div className="mb-8 hidden w-full max-w-5xl lg:block">
-            <h1 className="relative mx-auto w-full overflow-hidden whitespace-nowrap text-ellipsis px-2 text-center text-2xl font-semibold tracking-wide text-white/35 md:text-4xl">
+            <h1 className="mx-auto w-full overflow-hidden whitespace-nowrap text-ellipsis px-2 text-center text-2xl font-semibold tracking-wide text-white md:text-4xl">
               {currentTrack.name}
-              <span
-                className="pointer-events-none absolute left-0 top-0 overflow-hidden whitespace-nowrap text-ellipsis px-2 text-white"
-                style={{ width: `${progressPercent}%` }}
-              >
-                {currentTrack.name}
-              </span>
             </h1>
           </div>
         )}
