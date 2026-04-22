@@ -55,7 +55,7 @@ export function Layout() {
       )}
 
       {/* Theme Toggle */}
-      {!hideChrome && <ThemeToggle />}
+      {!hideChrome && !isMusicPage && <ThemeToggle />}
 
       {/* Sidebar */}
       {!hideChrome && <Sidebar />}
