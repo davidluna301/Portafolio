@@ -5,8 +5,8 @@ import {
   Heart,
   Home,
   Mail,
-  MessageSquare,
   Music,
+  Quote,
   User,
 } from "lucide-react";
 
@@ -25,7 +25,7 @@ export const navigationItems: NavigationItem[] = [
   { path: "/", icon: Home, label: { es: "Inicio", en: "Home" } },
   { path: "/about", icon: User, label: { es: "Acerca de mí", en: "About me" } },
   { path: "/projects", icon: Briefcase, label: { es: "Proyectos", en: "Projects" } },
-  { path: "/testimonials", icon: MessageSquare, label: { es: "Testimonios", en: "Testimonials" } },
+  { path: "/testimonials", icon: Quote, label: { es: "Testimonios", en: "Testimonials" } },
   { path: "/experience", icon: GraduationCap, label: { es: "Experiencia", en: "Experience" } },
   { path: "/personal", icon: Heart, label: { es: "Conóceme mejor", en: "Get to know me" } },
   { path: "/music", icon: Music, label: { es: "Musica", en: "Music" } },
