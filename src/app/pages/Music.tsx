@@ -38,6 +38,7 @@ export function Music() {
   const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
   const contextRef = useRef<AudioContext | null>(null);
   const frameRef = useRef<number | null>(null);
+  const isPlayingRef = useRef(false);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -88,12 +89,22 @@ export function Music() {
   }, [volume]);
 
   useEffect(() => {
+    isPlayingRef.current = isPlaying;
+  }, [isPlaying]);
+
+  useEffect(() => {
     if (!currentTrack || !audioRef.current) return;
 
     const audio = audioRef.current;
     audio.src = currentTrack.src;
     setCurrentTime(0);
     setDuration(0);
+
+    if (isPlayingRef.current) {
+      void audio.play().catch(() => {
+        setIsPlaying(false);
+      });
+    }
   }, [currentTrack]);
 
   useEffect(() => {
