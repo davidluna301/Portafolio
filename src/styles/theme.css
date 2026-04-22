@@ -49,11 +49,11 @@
 
 .dark {
   --background: #131317;
-  --foreground: oklch(0.985 0 0);
-  --portfolio-text-strong: #F5F1E8;
+  --foreground: #FFFFFF;
+  --portfolio-text-strong: #FFFFFF;
   --portfolio-text-soft: #D4C4B0;
   --portfolio-text-accent: #C4A57B;
-  --portfolio-text-contrast: #F5F1E8;
+  --portfolio-text-contrast: #FFFFFF;
   --portfolio-text-soft-on-dark: #D4C4B0;
   --card: oklch(0.145 0 0);
   --card-foreground: oklch(0.985 0 0);
