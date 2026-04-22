@@ -397,7 +397,7 @@ export function Music() {
         </button>
 
         {currentTrack && (
-          <div className="mb-8 w-full max-w-5xl">
+          <div className="mb-8 hidden w-full max-w-5xl lg:block">
             <h1 className="relative mx-auto w-full overflow-hidden whitespace-nowrap text-ellipsis px-2 text-center text-2xl font-semibold tracking-wide text-white/35 md:text-4xl">
               {currentTrack.name}
               <span
