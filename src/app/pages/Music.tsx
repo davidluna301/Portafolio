@@ -377,14 +377,12 @@ export function Music() {
           className="pointer-events-none absolute -left-12 top-8 h-52 w-52 rounded-full blur-3xl"
           style={{
             background: isTatami ? "rgba(170, 134, 109, 0.20)" : "rgba(196, 165, 123, 0.22)",
-            animation: `musicPulse ${vibe.speed}s ease-in-out infinite alternate`,
           }}
         />
         <div
           className="pointer-events-none absolute -right-10 bottom-10 h-64 w-64 rounded-full blur-3xl"
           style={{
             background: isTatami ? "rgba(212, 196, 176, 0.12)" : "rgba(139, 115, 85, 0.16)",
-            animation: `musicPulse ${Math.max(0.8, vibe.speed - 0.3)}s ease-in-out infinite alternate-reverse`,
           }}
         />
 
@@ -606,12 +604,6 @@ export function Music() {
         </div>
       </div>
 
-      <style>{`
-        @keyframes musicPulse {
-          0% { transform: scale(0.94) translate3d(0, 0, 0); opacity: 0.35; }
-          100% { transform: scale(1.08) translate3d(0, -2%, 0); opacity: 0.88; }
-        }
-      `}</style>
     </PageShell>
   );
 }
