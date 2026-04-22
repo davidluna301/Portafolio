@@ -1,30 +1,10 @@
-import { useState } from "react";
 import { motion } from "motion/react";
 import profileImage from "../../imports/photo.png";
 import { PageShell } from "../components/PageShell";
 import { useLanguage } from "../contexts/LanguageContext";
 
 export function About() {
-  const [currentSlide, setCurrentSlide] = useState(0);
   const { t } = useLanguage();
-
-  const sliderSettings = {
-    dots: true,
-    infinite: true,
-    speed: 800,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 4000,
-    fade: true,
-    beforeChange: (_current: number, next: number) => setCurrentSlide(next),
-    dotsClass: "slick-dots !bottom-4",
-    customPaging: (i: number) => (
-      <button className={`w-2 h-2 rounded-full transition-all ${
-        i === currentSlide ? "bg-[#C4A57B] scale-125" : "bg-[#8B7355]"
-      }`} />
-    ),
-  };
 
   return (
     <PageShell>
@@ -42,15 +22,15 @@ export function About() {
           </div>
 
           {/* Grid layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
             {/* Slider de imágenes */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="order-2 lg:order-1 mx-auto w-full max-w-[220px] md:max-w-[280px]"
+              className="order-2 lg:order-1 w-full"
             >
-              <div className="relative rounded-lg overflow-hidden border-4 border-[#8B7355] shadow-2xl bg-[#2C2416]">
+              <div className="relative rounded-lg overflow-hidden border-4 border-[#8B7355] shadow-2xl bg-[#2C2416] h-full min-h-[430px]">
                 <img
                   src={profileImage}
                   alt="David Alejandro Luna Martinez"
@@ -64,9 +44,9 @@ export function About() {
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
-              className="order-1 lg:order-2 space-y-6"
+              className="order-1 lg:order-2"
             >
-              <div className="bg-white/50 tatami:bg-[#575357]/80 backdrop-blur-sm p-8 rounded-lg border-2 border-[#8B7355] shadow-lg">
+              <div className="bg-white/50 tatami:bg-[#575357]/80 backdrop-blur-sm p-8 rounded-lg border-2 border-[#8B7355] shadow-lg h-full min-h-[430px] flex flex-col justify-center">
                 <h3 className="text-2xl md:text-3xl text-portfolio-strong mb-4">
                   {t("Mi Historia", "My Story")}
                 </h3>
@@ -88,22 +68,6 @@ export function About() {
                     "Each project represents a unique challenge where I apply best development practices, implement scalable architectures, and build tools that truly make a difference."
                   )}
                 </p>
-              </div>
-
-              {/* Habilidades destacadas */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-[#2C2416] p-6 rounded-lg border-2 border-[#8B7355] text-center">
-                  <div className="text-3xl md:text-4xl text-portfolio-accent mb-2">{t("Software", "Software")}</div>
-                  <div className="text-portfolio-soft-on-dark text-sm md:text-base">
-                    {t("Desarrollo Web", "Web Development")}
-                  </div>
-                </div>
-                <div className="bg-[#2C2416] p-6 rounded-lg border-2 border-[#8B7355] text-center">
-                  <div className="text-3xl md:text-4xl text-portfolio-accent mb-2">Web</div>
-                  <div className="text-portfolio-soft-on-dark text-sm md:text-base">
-                    {t("Gestores de Datos", "Data Managers")}
-                  </div>
-                </div>
               </div>
             </motion.div>
           </div>
