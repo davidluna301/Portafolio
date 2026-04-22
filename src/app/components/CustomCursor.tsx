@@ -1,9 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-export function CustomCursor() {
+interface CustomCursorProps {
+  forceLight?: boolean;
+  hideUntilMove?: boolean;
+}
+
+export function CustomCursor({ forceLight = false, hideUntilMove = false }: CustomCursorProps) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const hideTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 768px)");
@@ -33,8 +40,24 @@ export function CustomCursor() {
       return;
     }
 
+    if (!hideUntilMove) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
+
     const updateCursorPosition = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
+
+      if (hideUntilMove) {
+        setIsVisible(true);
+        if (hideTimerRef.current) {
+          window.clearTimeout(hideTimerRef.current);
+        }
+        hideTimerRef.current = window.setTimeout(() => {
+          setIsVisible(false);
+        }, 900);
+      }
     };
 
     const handleMouseOver = (e: MouseEvent) => {
@@ -71,8 +94,12 @@ export function CustomCursor() {
       window.removeEventListener("mousemove", updateCursorPosition);
       document.removeEventListener("mouseover", handleMouseOver);
       document.removeEventListener("mouseout", handleMouseOut);
+      if (hideTimerRef.current) {
+        window.clearTimeout(hideTimerRef.current);
+        hideTimerRef.current = null;
+      }
     };
-  }, [isDesktop]);
+  }, [isDesktop, hideUntilMove]);
 
   if (!isDesktop) {
     return null;
@@ -81,15 +108,17 @@ export function CustomCursor() {
   return (
     <>
       <div
-        className={`custom-cursor ${isHovering ? "hover" : ""}`}
+        className={`custom-cursor ${isHovering ? "hover" : ""} ${forceLight ? "force-light" : ""}`}
         style={{
           transform: `translate(${position.x - 4}px, ${position.y - 4}px)`,
+          opacity: isVisible ? 1 : 0,
         }}
       />
       <div
-        className={`custom-cursor-ring ${isHovering ? "hover" : ""}`}
+        className={`custom-cursor-ring ${isHovering ? "hover" : ""} ${forceLight ? "force-light" : ""}`}
         style={{
           transform: `translate(${position.x - 16}px, ${position.y - 16}px)`,
+          opacity: isVisible ? 1 : 0,
         }}
       />
     </>

@@ -12,6 +12,7 @@ export function Layout() {
   const [hideChrome, setHideChrome] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
   const location = useLocation();
+  const isMusicPage = location.pathname === "/music";
 
   useEffect(() => {
     setHideChrome(false);
@@ -49,7 +50,9 @@ export function Layout() {
   return (
     <div className="min-h-screen bg-background relative transition-colors duration-300">
       {/* Custom Cursor */}
-      {!hideChrome && <CustomCursor />}
+      {(!hideChrome || isMusicPage) && (
+        <CustomCursor forceLight={isMusicPage} hideUntilMove={isMusicPage && hideChrome} />
+      )}
 
       {/* Theme Toggle */}
       {!hideChrome && <ThemeToggle />}
