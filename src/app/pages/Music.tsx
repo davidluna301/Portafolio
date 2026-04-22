@@ -78,11 +78,6 @@ export function Music() {
     });
   }, [isShuffle, randomIndex]);
 
-  const goRandom = useCallback(() => {
-    if (playlist.length === 0) return;
-    setCurrentIndex((prev) => randomIndex(prev));
-  }, [randomIndex]);
-
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -301,16 +296,6 @@ export function Music() {
             disabled={noMusicLoaded}
           >
             {repeatMode === "one" ? <Repeat1 className="h-5 w-5" /> : <Repeat className="h-5 w-5" />}
-          </button>
-
-          <button
-            type="button"
-            onClick={goRandom}
-            className="rounded-xl border border-white/25 bg-black/30 p-3 text-white transition hover:bg-white/15"
-            aria-label="Random track"
-            disabled={noMusicLoaded}
-          >
-            <Shuffle className="h-5 w-5" />
           </button>
 
           <button
