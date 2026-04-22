@@ -120,7 +120,7 @@ export function PersonalLife() {
                         {interest.favorites.map((fav) => (
                           <span
                             key={fav}
-                            className="px-3 py-1.5 bg-[#2C2416] text-portfolio-accent text-sm rounded-full border border-[#8B7355]"
+                            className="px-3 py-1.5 bg-[#2C2416] text-white text-sm rounded-full border border-[#8B7355]"
                           >
                             {fav}
                           </span>
@@ -141,13 +141,13 @@ export function PersonalLife() {
             className="mt-12 text-center"
           >
             <div className="inline-block bg-[#2C2416] border-2 border-[#8B7355] rounded-lg p-8 shadow-lg">
-              <p className="text-portfolio-accent text-xl md:text-2xl italic mb-2">
+              <p className="text-white text-xl md:text-2xl italic mb-2">
                 {t(
                   '"La vida es un equilibrio entre pasión y dedicación"',
                   '"Life is a balance between passion and dedication"'
                 )}
               </p>
-              <p className="text-portfolio-soft-on-dark">
+              <p className="text-white">
                 {t("— Mi filosofía personal", "— My personal philosophy")}
               </p>
             </div>
