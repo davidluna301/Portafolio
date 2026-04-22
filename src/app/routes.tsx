@@ -9,19 +9,24 @@ import { Contact } from "./pages/Contact";
 import { PersonalLife } from "./pages/PersonalLife";
 import { Music } from "./pages/Music";
 
-export const router = createBrowserRouter([
+export const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      Component: Layout,
+      children: [
+        { index: true, Component: Home },
+        { path: "about", Component: About },
+        { path: "projects", Component: Projects },
+        { path: "testimonials", Component: Testimonials },
+        { path: "experience", Component: Experience },
+        { path: "personal", Component: PersonalLife },
+        { path: "music", Component: Music },
+        { path: "contact", Component: Contact },
+      ],
+    },
+  ],
   {
-    path: "/",
-    Component: Layout,
-    children: [
-      { index: true, Component: Home },
-      { path: "about", Component: About },
-      { path: "projects", Component: Projects },
-      { path: "testimonials", Component: Testimonials },
-      { path: "experience", Component: Experience },
-      { path: "personal", Component: PersonalLife },
-      { path: "music", Component: Music },
-      { path: "contact", Component: Contact },
-    ],
+    basename: "/Portafolio",
   },
-]);
+);
