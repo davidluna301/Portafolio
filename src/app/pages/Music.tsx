@@ -305,7 +305,95 @@ export function Music() {
           </div>
         )}
 
-        <div className="mb-8 w-full max-w-3xl rounded-full border border-white/25 bg-black/35 px-4 py-3 backdrop-blur-xl">
+        <div className="mb-8 flex w-full max-w-sm items-center justify-center gap-4 md:hidden">
+          <div className="flex h-64 w-16 items-center justify-center rounded-2xl border border-white/25 bg-black/35 backdrop-blur-xl">
+            <div className="relative h-52 w-2 overflow-hidden rounded-full bg-white/20">
+              <div
+                className="absolute bottom-0 left-0 w-full rounded-full bg-white transition-[height] duration-150"
+                style={{ height: `${progressPercent}%` }}
+              />
+              <input
+                type="range"
+                min={0}
+                max={duration > 0 ? duration : 100}
+                step={0.1}
+                value={duration > 0 ? Math.min(currentTime, duration) : 0}
+                onChange={(e) => handleSeek(Number(e.target.value))}
+                className="absolute left-1/2 top-1/2 h-52 w-8 -translate-x-1/2 -translate-y-1/2 rotate-[-90deg] cursor-pointer opacity-0"
+                aria-label="Track progress"
+                disabled={noMusicLoaded || duration <= 0}
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center gap-3 rounded-2xl border border-white/20 bg-black/25 px-3 py-4 backdrop-blur-xl">
+            <button
+              type="button"
+              onClick={goPrev}
+              className="rounded-xl border border-white/25 bg-black/30 p-3 text-white transition hover:bg-white/15"
+              aria-label="Previous track"
+              disabled={noMusicLoaded}
+            >
+              <SkipBack className="h-5 w-5" />
+            </button>
+
+            <button
+              type="button"
+              onClick={toggleShuffle}
+              className={`rounded-xl border p-3 transition ${isShuffle ? "border-emerald-300 bg-emerald-500/30 text-white" : "border-white/25 bg-black/30 text-white hover:bg-white/15"}`}
+              aria-label="Shuffle"
+              disabled={noMusicLoaded}
+            >
+              <Shuffle className="h-5 w-5" />
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setIsPlaying((prev) => !prev)}
+              className="min-w-24 rounded-xl border border-white/30 bg-white/15 px-4 py-3 text-lg font-semibold text-white transition hover:bg-white/25"
+              disabled={noMusicLoaded}
+            >
+              {isPlaying ? "||" : ">"}
+            </button>
+
+            <button
+              type="button"
+              onClick={toggleRepeat}
+              className={`rounded-xl border p-3 transition ${repeatMode === "one" ? "border-amber-300 bg-amber-500/30 text-white" : "border-white/25 bg-black/30 text-white hover:bg-white/15"}`}
+              aria-label="Repeat mode"
+              disabled={noMusicLoaded}
+            >
+              {repeatMode === "one" ? <Repeat1 className="h-5 w-5" /> : <Repeat className="h-5 w-5" />}
+            </button>
+
+            <button
+              type="button"
+              onClick={goNext}
+              className="rounded-xl border border-white/25 bg-black/30 p-3 text-white transition hover:bg-white/15"
+              aria-label="Next track"
+              disabled={noMusicLoaded}
+            >
+              <SkipForward className="h-5 w-5" />
+            </button>
+
+            <div className="flex items-center gap-2 rounded-xl border border-white/20 bg-black/30 px-2 py-2 text-white">
+              {volume <= 0.01 ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+              <input
+                type="range"
+                min={0}
+                max={1}
+                step={0.01}
+                value={volume}
+                onChange={(e) => setVolume(Number(e.target.value))}
+                className="h-1 w-16 accent-white"
+                aria-label="Volume"
+                disabled={noMusicLoaded}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-8 hidden w-full max-w-3xl rounded-full border border-white/25 bg-black/35 px-4 py-3 backdrop-blur-xl md:block">
           <div className="relative h-2 w-full overflow-hidden rounded-full bg-white/20">
             <div
               className="absolute left-0 top-0 h-full rounded-full bg-white transition-[width] duration-150"
@@ -325,7 +413,7 @@ export function Music() {
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-3 rounded-2xl border border-white/20 bg-black/25 px-4 py-3 backdrop-blur-xl">
+        <div className="hidden flex-wrap items-center justify-center gap-3 rounded-2xl border border-white/20 bg-black/25 px-4 py-3 backdrop-blur-xl md:flex">
           <button
             type="button"
             onClick={goPrev}
