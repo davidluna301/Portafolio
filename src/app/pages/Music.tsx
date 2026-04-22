@@ -46,6 +46,8 @@ export function Music() {
   const [volume, setVolume] = useState(0.8);
   const [energy, setEnergy] = useState(0.06);
   const [rhythm, setRhythm] = useState(0.08);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
 
   const currentTrack = playlist[currentIndex] ?? null;
 
@@ -90,6 +92,8 @@ export function Music() {
 
     const audio = audioRef.current;
     audio.src = currentTrack.src;
+    setCurrentTime(0);
+    setDuration(0);
 
     if (isPlaying) {
       void audio.play().catch(() => {
@@ -215,7 +219,16 @@ export function Music() {
     setRepeatMode((prev) => (prev === "all" ? "one" : "all"));
   };
 
+  const handleSeek = (value: number) => {
+    const audio = audioRef.current;
+    if (!audio || !Number.isFinite(value)) return;
+
+    audio.currentTime = value;
+    setCurrentTime(value);
+  };
+
   const noMusicLoaded = playlist.length === 0;
+  const progressPercent = duration > 0 ? Math.min((currentTime / duration) * 100, 100) : 0;
 
   return (
     <div
@@ -224,7 +237,17 @@ export function Music() {
         background: `radial-gradient(circle at 20% 20%, ${vibe.gradientA}, transparent 44%), radial-gradient(circle at 80% 72%, ${vibe.gradientB}, transparent 42%), linear-gradient(125deg, ${vibe.gradientC}, #060608 72%)`,
       }}
     >
-      <audio ref={audioRef} preload="metadata" />
+      <audio
+        ref={audioRef}
+        preload="metadata"
+        onLoadedMetadata={(e) => {
+          const mediaDuration = e.currentTarget.duration;
+          setDuration(Number.isFinite(mediaDuration) ? mediaDuration : 0);
+        }}
+        onTimeUpdate={(e) => {
+          setCurrentTime(e.currentTarget.currentTime);
+        }}
+      />
 
       <div
         className="pointer-events-none absolute -left-16 -top-20 h-[45vh] w-[45vh] rounded-full opacity-80 blur-2xl"
@@ -253,10 +276,32 @@ export function Music() {
         </button>
 
         {currentTrack && (
-          <h1 className="mb-10 max-w-5xl text-center text-2xl font-semibold tracking-wide text-white md:text-4xl">
+          <h1
+            className="mb-8 max-w-5xl text-center text-2xl font-semibold tracking-wide md:text-4xl"
+            style={{
+              background: `linear-gradient(90deg, #f8fafc ${progressPercent}%, rgba(248, 250, 252, 0.38) ${progressPercent}%)`,
+              WebkitBackgroundClip: "text",
+              backgroundClip: "text",
+              color: "transparent",
+            }}
+          >
             {currentTrack.name}
           </h1>
         )}
+
+        <div className="mb-8 w-full max-w-3xl rounded-full border border-white/25 bg-black/35 px-4 py-3 backdrop-blur-xl">
+          <input
+            type="range"
+            min={0}
+            max={duration > 0 ? duration : 0}
+            step={0.1}
+            value={duration > 0 ? Math.min(currentTime, duration) : 0}
+            onChange={(e) => handleSeek(Number(e.target.value))}
+            className="h-1.5 w-full cursor-pointer accent-white"
+            aria-label="Track progress"
+            disabled={noMusicLoaded || duration <= 0}
+          />
+        </div>
 
         <div className="flex flex-wrap items-center justify-center gap-3 rounded-2xl border border-white/20 bg-black/25 px-4 py-3 backdrop-blur-xl">
           <button
