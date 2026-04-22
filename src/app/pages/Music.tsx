@@ -94,13 +94,7 @@ export function Music() {
     audio.src = currentTrack.src;
     setCurrentTime(0);
     setDuration(0);
-
-    if (isPlaying) {
-      void audio.play().catch(() => {
-        setIsPlaying(false);
-      });
-    }
-  }, [currentTrack, isPlaying]);
+  }, [currentTrack]);
 
   useEffect(() => {
     const audio = audioRef.current;
