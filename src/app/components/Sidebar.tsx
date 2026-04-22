@@ -10,7 +10,7 @@ export function Sidebar() {
   return (
     <>
       {/* Desktop Sidebar */}
-      <aside className="hidden md:flex fixed left-0 top-0 h-screen w-20 lg:w-24 bg-[#2C2416] border-r-4 border-[#8B7355] flex-col items-center py-8 z-50">
+      <aside data-cursor-light-zone="true" className="hidden md:flex fixed left-0 top-0 h-screen w-20 lg:w-24 bg-[#2C2416] border-r-4 border-[#8B7355] flex-col items-center py-8 z-50">
         <div className="flex-1 flex flex-col gap-6 items-center justify-center">
           {navigationItems.map((item) => {
             const Icon = item.icon;

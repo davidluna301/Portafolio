@@ -8,6 +8,7 @@ interface CustomCursorProps {
 export function CustomCursor({ forceLight = false, hideUntilMove = false }: CustomCursorProps) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const [isInLightZone, setIsInLightZone] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const hideTimerRef = useRef<number | null>(null);
@@ -48,6 +49,9 @@ export function CustomCursor({ forceLight = false, hideUntilMove = false }: Cust
 
     const updateCursorPosition = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
+
+      const pointedElement = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement | null;
+      setIsInLightZone(Boolean(pointedElement?.closest("[data-cursor-light-zone='true']")));
 
       if (hideUntilMove) {
         setIsVisible(true);
@@ -108,14 +112,14 @@ export function CustomCursor({ forceLight = false, hideUntilMove = false }: Cust
   return (
     <>
       <div
-        className={`custom-cursor ${isHovering ? "hover" : ""} ${forceLight ? "force-light" : ""}`}
+        className={`custom-cursor ${isHovering ? "hover" : ""} ${forceLight || isInLightZone ? "force-light" : ""}`}
         style={{
           transform: `translate(${position.x - 4}px, ${position.y - 4}px)`,
           opacity: isVisible ? 1 : 0,
         }}
       />
       <div
-        className={`custom-cursor-ring ${isHovering ? "hover" : ""} ${forceLight ? "force-light" : ""}`}
+        className={`custom-cursor-ring ${isHovering ? "hover" : ""} ${forceLight || isInLightZone ? "force-light" : ""}`}
         style={{
           transform: `translate(${position.x - 16}px, ${position.y - 16}px)`,
           opacity: isVisible ? 1 : 0,
