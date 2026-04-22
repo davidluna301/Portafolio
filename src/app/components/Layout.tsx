@@ -7,12 +7,14 @@ import { ThemeToggle } from "./ThemeToggle";
 import { CustomCursor } from "./CustomCursor";
 import { useEffect, useState } from "react";
 import { useTheme } from "../contexts/ThemeContext";
+import { useLanguage } from "../contexts/LanguageContext";
 
 export function Layout() {
   const [showCircularMenu, setShowCircularMenu] = useState(false);
   const [hideChrome, setHideChrome] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
   const { toggleTheme } = useTheme();
+  const { toggleLanguage } = useLanguage();
   const location = useLocation();
   const isMusicPage = location.pathname === "/music";
 
@@ -33,6 +35,12 @@ export function Layout() {
       if (e.shiftKey && e.key.toLowerCase() === "q" && !isTypingTarget) {
         e.preventDefault();
         toggleTheme();
+        return;
+      }
+
+      if (e.shiftKey && e.key.toLowerCase() === "e" && !isTypingTarget) {
+        e.preventDefault();
+        toggleLanguage();
         return;
       }
 
@@ -61,7 +69,7 @@ export function Layout() {
       window.removeEventListener("keydown", handleKeyDown);
       document.body.style.cursor = "auto";
     };
-  }, [showCircularMenu, toggleTheme]);
+  }, [showCircularMenu, toggleTheme, toggleLanguage]);
 
   return (
     <div className="min-h-screen bg-background relative transition-colors duration-300">
