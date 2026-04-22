@@ -216,7 +216,23 @@ export function Music() {
   }, [energy, rhythm]);
 
   const toggleRepeat = () => {
-    setRepeatMode((prev) => (prev === "all" ? "one" : "all"));
+    setRepeatMode((prev) => {
+      const nextMode = prev === "all" ? "one" : "all";
+      if (nextMode === "one") {
+        setIsShuffle(false);
+      }
+      return nextMode;
+    });
+  };
+
+  const toggleShuffle = () => {
+    setIsShuffle((prev) => {
+      const nextShuffle = !prev;
+      if (nextShuffle) {
+        setRepeatMode("all");
+      }
+      return nextShuffle;
+    });
   };
 
   const handleSeek = (value: number) => {
@@ -322,7 +338,7 @@ export function Music() {
 
           <button
             type="button"
-            onClick={() => setIsShuffle((prev) => !prev)}
+            onClick={toggleShuffle}
             className={`rounded-xl border p-3 transition ${isShuffle ? "border-emerald-300 bg-emerald-500/30 text-white" : "border-white/25 bg-black/30 text-white hover:bg-white/15"}`}
             aria-label="Shuffle"
             disabled={noMusicLoaded}
