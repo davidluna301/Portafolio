@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useOutletContext } from "react-router";
-import { Repeat, Repeat1, Shuffle, SkipBack, SkipForward, Volume2, VolumeX } from "lucide-react";
+import { FolderOpen, Repeat, Repeat1, Shuffle, SkipBack, SkipForward, Volume2, VolumeX } from "lucide-react";
 
 type LayoutOutletContext = {
   hideChrome: boolean;
@@ -14,12 +14,14 @@ type Track = {
   name: string;
 };
 
+const AUDIO_FILE_REGEX = /\.(mp3|wav|ogg|m4a|aac|flac)$/i;
+
 const tracksModules = import.meta.glob("../../imports/music/*.{mp3,wav,ogg,m4a,aac,flac}", {
   eager: true,
   import: "default",
 }) as Record<string, string>;
 
-const playlist: Track[] = Object.entries(tracksModules)
+const importedPlaylist: Track[] = Object.entries(tracksModules)
   .map(([path, src]) => {
     const rawName = path.split("/").pop() ?? "track";
     const cleaned = decodeURIComponent(rawName).replace(/\.[^/.]+$/, "");
@@ -39,8 +41,10 @@ export function Music() {
   const contextRef = useRef<AudioContext | null>(null);
   const frameRef = useRef<number | null>(null);
   const isPlayingRef = useRef(false);
+  const objectUrlsRef = useRef<string[]>([]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [playlist, setPlaylist] = useState<Track[]>(importedPlaylist);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isShuffle, setIsShuffle] = useState(false);
   const [repeatMode, setRepeatMode] = useState<RepeatMode>("all");
@@ -70,7 +74,7 @@ export function Music() {
       if (isShuffle) return randomIndex(prev);
       return (prev + 1) % playlist.length;
     });
-  }, [isShuffle, randomIndex]);
+  }, [isShuffle, randomIndex, playlist.length]);
 
   const goPrev = useCallback(() => {
     if (playlist.length === 0) return;
@@ -79,7 +83,91 @@ export function Music() {
       if (isShuffle) return randomIndex(prev);
       return (prev - 1 + playlist.length) % playlist.length;
     });
-  }, [isShuffle, randomIndex]);
+  }, [isShuffle, randomIndex, playlist.length]);
+
+  const clearObjectUrls = useCallback(() => {
+    objectUrlsRef.current.forEach((url) => URL.revokeObjectURL(url));
+    objectUrlsRef.current = [];
+  }, []);
+
+  const buildTracksFromFiles = useCallback((files: File[]) => {
+    const audioFiles = files.filter((file) => AUDIO_FILE_REGEX.test(file.name));
+    const createdTracks = audioFiles
+      .map((file) => {
+        const url = URL.createObjectURL(file);
+        return {
+          src: url,
+          name: file.name.replace(/\.[^/.]+$/, ""),
+        };
+      })
+      .sort((a, b) => a.name.localeCompare(b.name));
+
+    return createdTracks;
+  }, []);
+
+  const setPlaylistFromFiles = useCallback(
+    (files: File[]) => {
+      const nextTracks = buildTracksFromFiles(files);
+      if (nextTracks.length === 0) {
+        return;
+      }
+
+      clearObjectUrls();
+      objectUrlsRef.current = nextTracks.map((track) => track.src);
+      setPlaylist(nextTracks);
+      setCurrentIndex(0);
+      setCurrentTime(0);
+      setDuration(0);
+    },
+    [buildTracksFromFiles, clearObjectUrls],
+  );
+
+  const collectFilesFromDirectoryHandle = useCallback(async (handle: any): Promise<File[]> => {
+    const files: File[] = [];
+
+    const walk = async (entry: any) => {
+      if (entry.kind === "file") {
+        const file = await entry.getFile();
+        files.push(file);
+        return;
+      }
+
+      for await (const child of entry.values()) {
+        await walk(child);
+      }
+    };
+
+    await walk(handle);
+    return files;
+  }, []);
+
+  const pickMusicFolder = useCallback(async () => {
+    const picker = (window as Window & { showDirectoryPicker?: () => Promise<any> }).showDirectoryPicker;
+
+    if (picker) {
+      try {
+        const directoryHandle = await picker();
+        const files = await collectFilesFromDirectoryHandle(directoryHandle);
+        setPlaylistFromFiles(files);
+      } catch {
+        // User cancelled folder selection
+      }
+      return;
+    }
+
+    const input = document.createElement("input");
+    input.type = "file";
+    input.multiple = true;
+    input.accept = ".mp3,.wav,.ogg,.m4a,.aac,.flac,audio/*";
+    (input as HTMLInputElement & { webkitdirectory?: boolean }).webkitdirectory = true;
+
+    input.addEventListener("change", () => {
+      const files = Array.from(input.files ?? []);
+      setPlaylistFromFiles(files);
+    });
+
+    input.click();
+  }, [collectFilesFromDirectoryHandle, setPlaylistFromFiles]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -196,12 +284,13 @@ export function Music() {
 
   useEffect(() => {
     return () => {
+      clearObjectUrls();
       if (frameRef.current) cancelAnimationFrame(frameRef.current);
       if (contextRef.current) {
         void contextRef.current.close();
       }
     };
-  }, []);
+  }, [clearObjectUrls]);
 
   const vibe = useMemo(() => {
     const pulseSize = 24 + energy * 120;
@@ -334,6 +423,15 @@ export function Music() {
           <div className="flex flex-col items-center gap-3 rounded-2xl border border-white/20 bg-black/25 px-3 py-4 backdrop-blur-xl">
             <button
               type="button"
+              onClick={pickMusicFolder}
+              className="rounded-xl border border-white/25 bg-black/30 p-3 text-white transition hover:bg-white/15"
+              aria-label="Choose music folder"
+            >
+              <FolderOpen className="h-5 w-5" />
+            </button>
+
+            <button
+              type="button"
               onClick={goPrev}
               className="rounded-xl border border-white/25 bg-black/30 p-3 text-white transition hover:bg-white/15"
               aria-label="Previous track"
@@ -419,6 +517,15 @@ export function Music() {
         </div>
 
         <div className="hidden flex-wrap items-center justify-center gap-3 rounded-2xl border border-white/20 bg-black/25 px-4 py-3 backdrop-blur-xl lg:flex">
+          <button
+            type="button"
+            onClick={pickMusicFolder}
+            className="rounded-xl border border-white/25 bg-black/30 p-3 text-white transition hover:bg-white/15"
+            aria-label="Choose music folder"
+          >
+            <FolderOpen className="h-5 w-5" />
+          </button>
+
           <button
             type="button"
             onClick={goPrev}
