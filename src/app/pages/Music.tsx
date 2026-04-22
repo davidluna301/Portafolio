@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useOutletContext } from "react-router";
-import { FolderOpen, Repeat, Repeat1, Shuffle, SkipBack, SkipForward, Volume2, VolumeX } from "lucide-react";
+import { Disc3, FolderOpen, Repeat, Repeat1, Shuffle, SkipBack, SkipForward, Volume2, VolumeX } from "lucide-react";
+import { PageShell } from "../components/PageShell";
+import { useLanguage } from "../contexts/LanguageContext";
+import { useTheme } from "../contexts/ThemeContext";
 
 type LayoutOutletContext = {
   hideChrome: boolean;
@@ -35,6 +38,8 @@ const importedPlaylist: Track[] = Object.entries(tracksModules)
 
 export function Music() {
   const { hideChrome, setHideChrome } = useOutletContext<LayoutOutletContext>();
+  const { t } = useLanguage();
+  const { theme } = useTheme();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
@@ -53,9 +58,9 @@ export function Music() {
   const [rhythm, setRhythm] = useState(0.08);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [isVerticalSeeking, setIsVerticalSeeking] = useState(false);
 
   const currentTrack = playlist[currentIndex] ?? null;
+  const isTatami = theme === "tatami";
 
   const randomIndex = useCallback((exceptIndex: number) => {
     if (playlist.length <= 1) return exceptIndex;
@@ -338,47 +343,23 @@ export function Music() {
     setCurrentTime(value);
   };
 
-  const handleVerticalSeek = useCallback(
-    (clientY: number, rect: DOMRect) => {
-      if (playlist.length === 0 || duration <= 0) return;
-
-      const clampedY = Math.min(Math.max(clientY, rect.top), rect.bottom);
-      const ratioFromBottom = (rect.bottom - clampedY) / rect.height;
-      handleSeek(ratioFromBottom * duration);
-    },
-    [duration, playlist.length],
-  );
-
-  const onVerticalPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (playlist.length === 0 || duration <= 0) return;
-
-    e.currentTarget.setPointerCapture(e.pointerId);
-    setIsVerticalSeeking(true);
-    handleVerticalSeek(e.clientY, e.currentTarget.getBoundingClientRect());
-  };
-
-  const onVerticalPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!isVerticalSeeking) return;
-    handleVerticalSeek(e.clientY, e.currentTarget.getBoundingClientRect());
-  };
-
-  const onVerticalPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (e.currentTarget.hasPointerCapture(e.pointerId)) {
-      e.currentTarget.releasePointerCapture(e.pointerId);
-    }
-    setIsVerticalSeeking(false);
-  };
-
   const noMusicLoaded = playlist.length === 0;
   const progressPercent = duration > 0 ? Math.min((currentTime / duration) * 100, 100) : 0;
+  const activeTrackNumber = playlist.length === 0 ? 0 : currentIndex + 1;
+
+  const formatTime = (value: number) => {
+    if (!Number.isFinite(value) || value <= 0) return "0:00";
+
+    const minutes = Math.floor(value / 60);
+    const seconds = Math.floor(value % 60)
+      .toString()
+      .padStart(2, "0");
+
+    return `${minutes}:${seconds}`;
+  };
 
   return (
-    <div
-      className="relative min-h-screen w-full overflow-hidden"
-      style={{
-        background: `radial-gradient(circle at 20% 20%, ${vibe.gradientA}, transparent 44%), radial-gradient(circle at 80% 72%, ${vibe.gradientB}, transparent 42%), linear-gradient(125deg, ${vibe.gradientC}, #060608 72%)`,
-      }}
-    >
+    <PageShell className="px-4 py-16 md:py-20 pb-24 md:pb-32" containerClassName="max-w-6xl">
       <audio
         ref={audioRef}
         preload="metadata"
@@ -391,234 +372,246 @@ export function Music() {
         }}
       />
 
-      <div
-        className="pointer-events-none absolute -left-16 -top-20 h-[45vh] w-[45vh] rounded-full opacity-80 blur-2xl"
-        style={{
-          background: `radial-gradient(circle, rgba(255,255,255,0.38) 0%, rgba(255,255,255,0) ${vibe.pulseSize}%)`,
-          animation: `musicPulse ${vibe.speed}s ease-in-out infinite alternate`,
-        }}
-      />
+      <div className="relative">
+        <div
+          className="pointer-events-none absolute -left-12 top-8 h-52 w-52 rounded-full blur-3xl"
+          style={{
+            background: isTatami ? "rgba(170, 134, 109, 0.20)" : "rgba(196, 165, 123, 0.22)",
+            animation: `musicPulse ${vibe.speed}s ease-in-out infinite alternate`,
+          }}
+        />
+        <div
+          className="pointer-events-none absolute -right-10 bottom-10 h-64 w-64 rounded-full blur-3xl"
+          style={{
+            background: isTatami ? "rgba(212, 196, 176, 0.12)" : "rgba(139, 115, 85, 0.16)",
+            animation: `musicPulse ${Math.max(0.8, vibe.speed - 0.3)}s ease-in-out infinite alternate-reverse`,
+          }}
+        />
 
-      <div
-        className="pointer-events-none absolute -right-20 -bottom-24 h-[50vh] w-[50vh] rounded-full opacity-70 blur-2xl"
-        style={{
-          background: `radial-gradient(circle, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0) ${vibe.pulseSize + 8}%)`,
-          animation: `musicPulse ${Math.max(0.65, vibe.speed - 0.35)}s ease-in-out infinite alternate-reverse`,
-        }}
-      />
+        <div className="relative z-10 space-y-8">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-3xl">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl text-primary mb-4">
+                {t("Música", "Music")}
+              </h2>
+              <div className="w-20 h-1 bg-primary mb-4" />
+              <p className="text-muted-foreground text-lg text-justify">
+                {t(
+                  "Un reproductor integrado con la estética del portafolio para acompañar la navegación con una atmósfera más personal.",
+                  "A player integrated with the portfolio aesthetic to accompany browsing with a more personal atmosphere."
+                )}
+              </p>
+            </div>
 
-      {!hideChrome && (
-        <button
-          type="button"
-          onClick={pickMusicFolder}
-          className="absolute right-5 top-5 z-20 rounded-xl border border-white/25 bg-black/30 p-3 text-white backdrop-blur-md transition hover:bg-white/15 md:right-7 md:top-7"
-          aria-label="Choose music folder"
-        >
-          <FolderOpen className="h-5 w-5" />
-        </button>
-      )}
+            <div className="flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={pickMusicFolder}
+                className="inline-flex items-center gap-2 rounded-lg border-2 border-[#8B7355] bg-[#2C2416] px-4 py-3 text-portfolio-contrast transition-colors hover:bg-[#8B7355]"
+                aria-label={t("Seleccionar carpeta de música", "Choose music folder")}
+              >
+                <FolderOpen className="h-5 w-5" />
+                {t("Cargar música", "Load music")}
+              </button>
 
-      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6">
-        <button
-          type="button"
-          onClick={() => setHideChrome((prev) => !prev)}
-          className="mb-10 h-16 w-16 rounded-full border border-white/30 bg-black/20 text-white backdrop-blur-md transition hover:scale-105 hover:bg-black/35"
-          aria-label="Toggle immersive mode"
-        >
-          {hideChrome ? "◉" : "◎"}
-        </button>
-
-        {currentTrack && (
-          <div className="mb-8 hidden w-full max-w-5xl lg:block">
-            <h1 className="mx-auto w-full overflow-hidden whitespace-nowrap text-ellipsis px-2 text-center text-2xl font-semibold tracking-wide text-white md:text-4xl">
-              {currentTrack.name}
-            </h1>
-          </div>
-        )}
-
-        <div className="mb-8 flex w-full max-w-sm items-center justify-center gap-4 lg:hidden">
-          <div className="flex h-64 w-16 items-center justify-center rounded-2xl border border-white/25 bg-black/35 backdrop-blur-xl">
-            <div className="relative h-52 w-2 overflow-hidden rounded-full bg-white/20">
-              <div
-                className="absolute bottom-0 left-0 w-full rounded-full bg-white transition-[height] duration-150"
-                style={{ height: `${progressPercent}%` }}
-              />
-              <div
-                role="slider"
-                aria-label="Track progress"
-                aria-valuemin={0}
-                aria-valuemax={duration > 0 ? duration : 0}
-                aria-valuenow={duration > 0 ? Math.min(currentTime, duration) : 0}
-                aria-disabled={noMusicLoaded || duration <= 0}
-                className="absolute -inset-x-5 inset-y-0 touch-none"
-                onPointerDown={onVerticalPointerDown}
-                onPointerMove={onVerticalPointerMove}
-                onPointerUp={onVerticalPointerUp}
-                onPointerCancel={onVerticalPointerUp}
-              />
+              <button
+                type="button"
+                onClick={() => setHideChrome((prev) => !prev)}
+                className="inline-flex items-center gap-2 rounded-lg border-2 border-[#8B7355] bg-white/50 px-4 py-3 text-portfolio-strong backdrop-blur-sm transition-colors hover:bg-[#8B7355] hover:text-portfolio-contrast tatami:bg-[#575357]/80"
+                aria-label={t("Alternar modo inmersivo", "Toggle immersive mode")}
+              >
+                <span className="text-lg leading-none">{hideChrome ? "◉" : "◎"}</span>
+                {hideChrome ? t("Salir de inmersivo", "Exit immersive") : t("Modo inmersivo", "Immersive mode")}
+              </button>
             </div>
           </div>
 
-          <div className="flex flex-col items-center gap-3 rounded-2xl border border-white/20 bg-black/25 px-3 py-4 backdrop-blur-xl">
-            <button
-              type="button"
-              onClick={goPrev}
-              className="rounded-xl border border-white/25 bg-black/30 p-3 text-white transition hover:bg-white/15"
-              aria-label="Previous track"
-              disabled={noMusicLoaded}
-            >
-              <SkipBack className="h-5 w-5" />
-            </button>
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1.5fr)_minmax(320px,0.9fr)]">
+            <section className="bg-white/50 tatami:bg-[#575357]/80 backdrop-blur-sm rounded-2xl border-2 border-[#8B7355] shadow-lg p-6 md:p-8">
+              <div className="flex flex-col items-center text-center">
+                <div
+                  className="relative mb-8 flex h-64 w-64 items-center justify-center rounded-full border-4 border-[#8B7355] bg-[#2C2416] shadow-2xl md:h-72 md:w-72"
+                  style={{ transform: `scale(${1 + energy * 0.08})` }}
+                >
+                  <div
+                    className="absolute inset-6 rounded-full border border-[#C4A57B]/50"
+                    style={{ transform: `scale(${1 + rhythm * 0.12})` }}
+                  />
+                  <div
+                    className="absolute inset-12 rounded-full border border-[#C4A57B]/35"
+                    style={{ transform: `scale(${1 + energy * 0.16})` }}
+                  />
+                  <div className="relative z-10 flex flex-col items-center gap-3 px-6 text-center text-[#F5F1E8]">
+                    <Disc3
+                      className="h-12 w-12 text-[#C4A57B]"
+                      style={{ transform: `rotate(${currentTime * 18}deg)` }}
+                    />
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.35em] text-[#C4A57B]">
+                        {noMusicLoaded ? t("Sin pistas", "No tracks") : t("Reproduciendo", "Now playing")}
+                      </p>
+                      <h3 className="mt-3 text-xl md:text-2xl font-medium leading-snug">
+                        {currentTrack?.name ?? t("Carga una carpeta para comenzar", "Load a folder to begin")}
+                      </h3>
+                    </div>
+                  </div>
+                </div>
 
-            <button
-              type="button"
-              onClick={toggleShuffle}
-              className={`rounded-xl border p-3 transition ${isShuffle ? "border-emerald-300 bg-emerald-500/30 text-white" : "border-white/25 bg-black/30 text-white hover:bg-white/15"}`}
-              aria-label="Shuffle"
-              disabled={noMusicLoaded}
-            >
-              <Shuffle className="h-5 w-5" />
-            </button>
+                <div className="w-full max-w-3xl">
+                  <div className="mb-3 flex items-center justify-between text-sm text-portfolio-soft">
+                    <span>{formatTime(currentTime)}</span>
+                    <span>{formatTime(duration)}</span>
+                  </div>
+                  <div className="relative h-3 w-full overflow-hidden rounded-full bg-[#2C2416]/20 tatami:bg-[#2C2416]/40">
+                    <div
+                      className="absolute left-0 top-0 h-full rounded-full bg-[#8B7355] transition-[width] duration-150"
+                      style={{ width: `${progressPercent}%` }}
+                    />
+                    <input
+                      type="range"
+                      min={0}
+                      max={duration > 0 ? duration : 100}
+                      step={0.1}
+                      value={duration > 0 ? Math.min(currentTime, duration) : 0}
+                      onChange={(e) => handleSeek(Number(e.target.value))}
+                      className="absolute left-0 top-0 h-full w-full cursor-pointer opacity-0"
+                      aria-label={t("Progreso de la pista", "Track progress")}
+                      disabled={noMusicLoaded || duration <= 0}
+                    />
+                  </div>
+                </div>
 
-            <button
-              type="button"
-              onClick={() => setIsPlaying((prev) => !prev)}
-              className="min-w-24 rounded-xl border border-white/30 bg-white/15 px-4 py-3 text-lg font-semibold text-white transition hover:bg-white/25"
-              disabled={noMusicLoaded}
-            >
-              {isPlaying ? "||" : ">"}
-            </button>
+                <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+                  <button
+                    type="button"
+                    onClick={goPrev}
+                    className="rounded-xl border-2 border-[#8B7355] bg-[#2C2416] p-3 text-portfolio-contrast transition-colors hover:bg-[#8B7355] disabled:cursor-not-allowed disabled:opacity-50"
+                    aria-label={t("Pista anterior", "Previous track")}
+                    disabled={noMusicLoaded}
+                  >
+                    <SkipBack className="h-5 w-5" />
+                  </button>
 
-            <button
-              type="button"
-              onClick={toggleRepeat}
-              className={`rounded-xl border p-3 transition ${repeatMode === "one" ? "border-amber-300 bg-amber-500/30 text-white" : "border-white/25 bg-black/30 text-white hover:bg-white/15"}`}
-              aria-label="Repeat mode"
-              disabled={noMusicLoaded}
-            >
-              {repeatMode === "one" ? <Repeat1 className="h-5 w-5" /> : <Repeat className="h-5 w-5" />}
-            </button>
+                  <button
+                    type="button"
+                    onClick={toggleShuffle}
+                    className={`rounded-xl border-2 p-3 transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${isShuffle ? "border-[#C4A57B] bg-[#8B7355] text-[#F5F1E8]" : "border-[#8B7355] bg-white/60 text-portfolio-strong hover:bg-[#8B7355] hover:text-portfolio-contrast tatami:bg-[#575357]"}`}
+                    aria-label={t("Modo aleatorio", "Shuffle mode")}
+                    disabled={noMusicLoaded}
+                  >
+                    <Shuffle className="h-5 w-5" />
+                  </button>
 
-            <button
-              type="button"
-              onClick={goNext}
-              className="rounded-xl border border-white/25 bg-black/30 p-3 text-white transition hover:bg-white/15"
-              aria-label="Next track"
-              disabled={noMusicLoaded}
-            >
-              <SkipForward className="h-5 w-5" />
-            </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsPlaying((prev) => !prev)}
+                    className="min-w-28 rounded-xl border-2 border-[#8B7355] bg-[#2C2416] px-6 py-3 text-lg font-semibold text-portfolio-contrast transition-colors hover:bg-[#8B7355] disabled:cursor-not-allowed disabled:opacity-50"
+                    disabled={noMusicLoaded}
+                  >
+                    {isPlaying ? t("Pausa", "Pause") : t("Reproducir", "Play")}
+                  </button>
 
-            <div className="flex items-center gap-2 rounded-xl border border-white/20 bg-black/30 px-2 py-2 text-white">
-              {volume <= 0.01 ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-              <input
-                type="range"
-                min={0}
-                max={1}
-                step={0.01}
-                value={volume}
-                onChange={(e) => setVolume(Number(e.target.value))}
-                className="h-1 w-16 accent-white"
-                aria-label="Volume"
-                disabled={noMusicLoaded}
-              />
-            </div>
-          </div>
-        </div>
+                  <button
+                    type="button"
+                    onClick={toggleRepeat}
+                    className={`rounded-xl border-2 p-3 transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${repeatMode === "one" ? "border-[#C4A57B] bg-[#8B7355] text-[#F5F1E8]" : "border-[#8B7355] bg-white/60 text-portfolio-strong hover:bg-[#8B7355] hover:text-portfolio-contrast tatami:bg-[#575357]"}`}
+                    aria-label={t("Modo repetición", "Repeat mode")}
+                    disabled={noMusicLoaded}
+                  >
+                    {repeatMode === "one" ? <Repeat1 className="h-5 w-5" /> : <Repeat className="h-5 w-5" />}
+                  </button>
 
-        <div className="mb-8 hidden w-full max-w-3xl rounded-full border border-white/25 bg-black/35 px-4 py-3 backdrop-blur-xl lg:block">
-          <div className="relative h-2 w-full overflow-hidden rounded-full bg-white/20">
-            <div
-              className="absolute left-0 top-0 h-full rounded-full bg-white transition-[width] duration-150"
-              style={{ width: `${progressPercent}%` }}
-            />
-            <input
-              type="range"
-              min={0}
-              max={duration > 0 ? duration : 100}
-              step={0.1}
-              value={duration > 0 ? Math.min(currentTime, duration) : 0}
-              onChange={(e) => handleSeek(Number(e.target.value))}
-              className="absolute left-0 top-0 h-full w-full cursor-pointer opacity-0"
-              aria-label="Track progress"
-              disabled={noMusicLoaded || duration <= 0}
-            />
-          </div>
-        </div>
+                  <button
+                    type="button"
+                    onClick={goNext}
+                    className="rounded-xl border-2 border-[#8B7355] bg-[#2C2416] p-3 text-portfolio-contrast transition-colors hover:bg-[#8B7355] disabled:cursor-not-allowed disabled:opacity-50"
+                    aria-label={t("Siguiente pista", "Next track")}
+                    disabled={noMusicLoaded}
+                  >
+                    <SkipForward className="h-5 w-5" />
+                  </button>
+                </div>
+              </div>
+            </section>
 
-        <div className="hidden flex-wrap items-center justify-center gap-3 rounded-2xl border border-white/20 bg-black/25 px-4 py-3 backdrop-blur-xl lg:flex">
-          <button
-            type="button"
-            onClick={goPrev}
-            className="rounded-xl border border-white/25 bg-black/30 p-3 text-white transition hover:bg-white/15"
-            aria-label="Previous track"
-            disabled={noMusicLoaded}
-          >
-            <SkipBack className="h-5 w-5" />
-          </button>
+            <aside className="space-y-6">
+              <div className="bg-white/50 tatami:bg-[#575357]/80 backdrop-blur-sm rounded-2xl border-2 border-[#8B7355] shadow-lg p-6">
+                <h3 className="text-2xl text-portfolio-strong mb-4">
+                  {t("Detalle de reproducción", "Playback details")}
+                </h3>
 
-          <button
-            type="button"
-            onClick={toggleShuffle}
-            className={`rounded-xl border p-3 transition ${isShuffle ? "border-emerald-300 bg-emerald-500/30 text-white" : "border-white/25 bg-black/30 text-white hover:bg-white/15"}`}
-            aria-label="Shuffle"
-            disabled={noMusicLoaded}
-          >
-            <Shuffle className="h-5 w-5" />
-          </button>
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-sm uppercase tracking-[0.25em] text-portfolio-accent mb-2">
+                      {t("Pista actual", "Current track")}
+                    </p>
+                    <p className="text-lg text-portfolio-strong break-words">
+                      {currentTrack?.name ?? t("Ninguna pista cargada", "No track loaded")}
+                    </p>
+                  </div>
 
-          <button
-            type="button"
-            onClick={() => setIsPlaying((prev) => !prev)}
-            className="min-w-28 rounded-xl border border-white/30 bg-white/15 px-5 py-3 text-lg font-semibold text-white transition hover:bg-white/25"
-            disabled={noMusicLoaded}
-          >
-            {isPlaying ? "||" : ">"}
-          </button>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="rounded-xl border border-[#8B7355] bg-[#2C2416] p-4 text-[#F5F1E8]">
+                      <p className="text-xs uppercase tracking-[0.2em] text-[#C4A57B] mb-2">{t("Pista", "Track")}</p>
+                      <p className="text-lg">{activeTrackNumber}/{playlist.length}</p>
+                    </div>
+                    <div className="rounded-xl border border-[#8B7355] bg-[#2C2416] p-4 text-[#F5F1E8]">
+                      <p className="text-xs uppercase tracking-[0.2em] text-[#C4A57B] mb-2">{t("Modo", "Mode")}</p>
+                      <p className="text-sm leading-relaxed">
+                        {isShuffle
+                          ? t("Aleatorio", "Shuffle")
+                          : repeatMode === "one"
+                            ? t("Repetir una", "Repeat one")
+                            : t("Lista completa", "Full playlist")}
+                      </p>
+                    </div>
+                  </div>
 
-          <button
-            type="button"
-            onClick={toggleRepeat}
-            className={`rounded-xl border p-3 transition ${repeatMode === "one" ? "border-amber-300 bg-amber-500/30 text-white" : "border-white/25 bg-black/30 text-white hover:bg-white/15"}`}
-            aria-label="Repeat mode"
-            disabled={noMusicLoaded}
-          >
-            {repeatMode === "one" ? <Repeat1 className="h-5 w-5" /> : <Repeat className="h-5 w-5" />}
-          </button>
+                  <div>
+                    <div className="mb-3 flex items-center justify-between text-sm text-portfolio-soft">
+                      <span>{t("Volumen", "Volume")}</span>
+                      <span>{Math.round(volume * 100)}%</span>
+                    </div>
+                    <div className="flex items-center gap-3 rounded-xl border border-[#8B7355] bg-white/60 px-4 py-3 tatami:bg-[#575357]">
+                      {volume <= 0.01 ? <VolumeX className="h-5 w-5 text-portfolio-strong" /> : <Volume2 className="h-5 w-5 text-portfolio-strong" />}
+                      <input
+                        type="range"
+                        min={0}
+                        max={1}
+                        step={0.01}
+                        value={volume}
+                        onChange={(e) => setVolume(Number(e.target.value))}
+                        className="h-1 w-full accent-[#8B7355]"
+                        aria-label={t("Volumen", "Volume")}
+                        disabled={noMusicLoaded}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-          <button
-            type="button"
-            onClick={goNext}
-            className="rounded-xl border border-white/25 bg-black/30 p-3 text-white transition hover:bg-white/15"
-            aria-label="Next track"
-            disabled={noMusicLoaded}
-          >
-            <SkipForward className="h-5 w-5" />
-          </button>
-
-          <div className="ml-2 flex items-center gap-2 rounded-xl border border-white/20 bg-black/30 px-3 py-2 text-white">
-            {volume <= 0.01 ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-            <input
-              type="range"
-              min={0}
-              max={1}
-              step={0.01}
-              value={volume}
-              onChange={(e) => setVolume(Number(e.target.value))}
-              className="h-1 w-24 accent-white md:w-36"
-              aria-label="Volume"
-              disabled={noMusicLoaded}
-            />
+              <div className="bg-[#2C2416] rounded-2xl border-2 border-[#8B7355] shadow-lg p-6 text-[#F5F1E8]">
+                <h3 className="text-xl text-[#C4A57B] mb-3">
+                  {t("Ambiente del portafolio", "Portfolio atmosphere")}
+                </h3>
+                <p className="text-sm leading-relaxed text-[#F5F1E8]">
+                  {t(
+                    "La experiencia musical ahora comparte la misma estética del resto del sitio y responde al modo normal o tatami oscuro sin romper la navegación.",
+                    "The music experience now shares the same aesthetic as the rest of the site and responds to normal or dark tatami mode without breaking navigation."
+                  )}
+                </p>
+              </div>
+            </aside>
           </div>
         </div>
       </div>
 
       <style>{`
         @keyframes musicPulse {
-          0% { transform: scale(0.92) translate3d(0, 0, 0); opacity: 0.35; }
-          100% { transform: scale(1.12) translate3d(0, -1.6%, 0); opacity: 0.9; }
+          0% { transform: scale(0.94) translate3d(0, 0, 0); opacity: 0.35; }
+          100% { transform: scale(1.08) translate3d(0, -2%, 0); opacity: 0.88; }
         }
       `}</style>
-    </div>
+    </PageShell>
   );
 }
